@@ -1,7 +1,7 @@
 import React from "react"
 import Header from "./components/header/Header"
 import Main from "./components/main/Main"
-import AddUser from "./components/AddUser"
+import Aside from "./components/aside/Aside"
 
 
 class App extends React.Component {
@@ -29,9 +29,7 @@ class App extends React.Component {
             <div>
                 <Header setMain={this.setMain}/>
                 <Main main={this.state.main} title={this.state.title} />
-                <aside>
-                    <AddUser onAdd={this.addUser} />
-                </aside>
+                <Aside />
             </div>
         )
     }
