@@ -29,7 +29,7 @@ class App extends React.Component {
             <div>
                 <Header setMain={this.setMain}/>
                 <Main main={this.state.main} title={this.state.title} />
-                <Aside />
+                <Aside main={this.state.main}/>
             </div>
         )
     }
