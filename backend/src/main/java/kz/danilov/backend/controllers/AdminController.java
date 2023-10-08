@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
@@ -34,7 +35,7 @@ public class AdminController {
 
     @GetMapping("/person/{id}")
     public ResponseEntity<Person> getPerson(@PathVariable("id") int id) {
-        log.info("GET: /person/" + id);
+        log.info("GET: /admin/person/" + id);
 
         Person person = peopleService.findById(id);
 
@@ -43,7 +44,7 @@ public class AdminController {
 
     @GetMapping("/people")
     public ResponseEntity<List<PersonDataDTO>> getAllPeople() {
-        log.info("GET: /people");
+        log.info("GET: /admin/people");
 
         List<Person> people = peopleService.findAll();
 

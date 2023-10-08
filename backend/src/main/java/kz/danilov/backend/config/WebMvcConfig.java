@@ -20,10 +20,12 @@ public class WebMvcConfig implements WebMvcConfigurer  {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/auth/**") // Здесь укажите путь, на который хотите применить CORS
+        registry.addMapping("/**") // Здесь укажите путь, на который хотите применить CORS
                 .allowedOrigins("http://localhost:3000") // Разрешенные источники (домены)
-                .allowedMethods("GET", "POST", "PUT", "DELETE") // Разрешенные HTTP методы
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Разрешенные HTTP методы
                 .allowedHeaders("Content-Type", "Authorization", "Accept")// Разрешенные заголовки
                 .allowCredentials(true); // Разрешение передачи учетных данных (например, куки)
     }
+
+
 }

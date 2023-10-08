@@ -1,6 +1,6 @@
 import React from "react"
-import AddUser from "../aside/AddUser"
-import { IoCloseCircleSharp, IoHammerSharp } from 'react-icons/io5'
+import { IoHammerSharp } from 'react-icons/io5'
+import EditUser from "./EditUser"
 
 class User extends React.Component {
     constructor(props) {
@@ -15,15 +15,14 @@ class User extends React.Component {
     render() {
         return (
             <div className="user" >
-                <IoCloseCircleSharp className="delete-icon" onClick={() => this.props.onDelete(this.user.id)} />
                 <IoHammerSharp className="edit-icon" onClick={() => this.setState({
                     editForm: !this.state.editForm
                 })} />
-                <h3>{this.user.first_name} {this.user.last_name}</h3>
-                <img src={this.user.avatar} alt="avatar"/>
-                <p>{this.user.email}</p>
+                <h3>id: {this.user.id}</h3>
+                <h3>name: {this.user.name}</h3>
+                <h3>role: {this.user.role}</h3>
 
-                {this.state.editForm && <AddUser user={this.user} onAdd={this.props.onEdit} />}
+                {this.state.editForm && <EditUser user={this.user} onAdd={this.props.onEdit} />}
             </div>
         )
     }

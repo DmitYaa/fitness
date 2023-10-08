@@ -3,6 +3,8 @@ import axios from "axios";
 const url = "http://localhost:8080/auth";
 
 function login(person, setState) {
+    
+
     axios.post(url + "/login", {
         name: person.name,
         password: person.password
@@ -92,7 +94,7 @@ function logout() {
 }
 
 function checkToken(setState) {
-  const token = localStorage.getItem("jwt")
+    const token = localStorage.getItem("jwt")
 
     if (token !== undefined && token !== null && token !== "undefined") {
         axios.get(url + "/check_token", {
@@ -111,24 +113,24 @@ function checkToken(setState) {
 }
 
 function isLoggedIn(setState) {
-  const token = localStorage.getItem("jwt")
+    const token = localStorage.getItem("jwt")
 
-  if (token !== undefined && token !== null && token !== "undefined") {
-    axios.get(url + "/check", {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
-        }
-      })
-      .then((res) => {
-        setState({loggedIn: res.data.is_jwt_actual})
-      })
-      .catch((error) => {
-        setState({loggedIn: false})
-        console.log("we are here")
-        console.log(error)
-      })
-  }
+    if (token !== undefined && token !== null && token !== "undefined") {
+      axios.get(url + "/check", {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          }
+        })
+        .then((res) => {
+          setState({loggedIn: res.data.is_jwt_actual})
+        })
+        .catch((error) => {
+          setState({loggedIn: false})
+          console.log("we are here")
+          console.log(error)
+        })
+    }
 }
 
 export {login, getUserData, setUserData, registration, logout, checkToken, isLoggedIn}
