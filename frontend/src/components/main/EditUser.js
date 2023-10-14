@@ -7,6 +7,7 @@ class EditUser extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            id: this.props.user.id,
             name: this.props.user.name,
             role: this.props.user.role
         }
@@ -33,12 +34,15 @@ class EditUser extends React.Component {
                 <Button doIt={() => {
                     this.myForm.reset()
                     this.userAdd = {
+                        id: this.state.id,
                         name: this.state.name,
                         role: this.state.role
                     }
                     if(this.props.user)
                         this.userAdd.id = this.props.user.id
-                    this.props.onAdd(this.userAdd)
+
+                    this.props.closeEditForm()
+                    this.props.onEdit(this.userAdd)
                 }} name="Изменить"/>
             </form>
         )

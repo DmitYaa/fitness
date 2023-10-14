@@ -8,9 +8,15 @@ class User extends React.Component {
         this.state = {
             editForm: false
         }
+
+        this.closeEditForm = this.closeEditForm.bind(this)
     }
 
     user = this.props.user
+
+    closeEditForm() {
+        this.setState({editForm: false})
+    }
 
     render() {
         return (
@@ -22,7 +28,7 @@ class User extends React.Component {
                 <h3>name: {this.user.name}</h3>
                 <h3>role: {this.user.role}</h3>
 
-                {this.state.editForm && <EditUser user={this.user} onAdd={this.props.onEdit} />}
+                {this.state.editForm && <EditUser user={this.user} onEdit={this.props.onEdit} closeEditForm={this.closeEditForm} />}
             </div>
         )
     }

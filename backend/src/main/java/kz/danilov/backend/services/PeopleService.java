@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PeopleService {
@@ -19,7 +20,11 @@ public class PeopleService {
     }
 
     public List<Person> findAll() {
-        return peopleRepository.findAll();
+        return peopleRepository.findAllByOrderById();
+    }
+
+    public List<Person> findByPartNameAndSortById(String partName) {
+        return peopleRepository.findByNameContainingIgnoreCaseOrderById(partName);
     }
 
     public Person findById(int id) {

@@ -3,6 +3,7 @@ package kz.danilov.backend.controllers;
 import kz.danilov.backend.BackendApplication;
 import kz.danilov.backend.dto.AuthenticationDTO;
 import kz.danilov.backend.dto.PersonDataDTO;
+import kz.danilov.backend.dto.SearchDTO;
 import kz.danilov.backend.models.Person;
 import kz.danilov.backend.services.PeopleService;
 import kz.danilov.backend.util.ErrorResponse;
@@ -51,8 +52,26 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK).body(modelMapperUtil.convertToPersonDataDTOList(people));
     }
 
-    @PutMapping("/set_new_data")
-    public ResponseEntity<HttpStatus> setRoleAdmin(@RequestBody PersonDataDTO personDataDTO) {
+    @PostMapping("/search_people")
+    public ResponseEntity<List<PersonDataDTO>> getSearchPeople(@RequestBody SearchDTO searchDTO) {
+        log.info("GET: /admin/search_people");
+
+        List<Person> people = peopleService.findByPartNameAndSortById(searchDTO.getSearchString());
+
+        return ResponseEntity.status(HttpStatus.OK).body(modelMapperUtil.convertToPersonDataDTOList(people));
+    }
+
+    @GetMapping("/people_size")
+    public ResponseEntity<Integer> getPeopleSize() {
+        log.info("GET: /admin/people_size");
+
+        List<Person> people = peopleService.findAll();
+
+        return ResponseEntity.status(HttpStatus.OK).body(people.size());
+    }
+
+    @PutMapping("/set_new_person_data")
+    public ResponseEntity<HttpStatus> setNewPersonData(@RequestBody PersonDataDTO personDataDTO) {
         log.info("PUT: /admin/set_new_data, id = " + personDataDTO.getId());
 
         Person person = peopleService.findById(personDataDTO.getId());
