@@ -1,7 +1,6 @@
 import React from "react"
 import Header from "./components/header/Header"
 import Main from "./components/main/Main"
-import Aside from "./components/aside/Aside"
 
 
 class App extends React.Component {
@@ -21,6 +20,8 @@ class App extends React.Component {
             this.setState({title: "Список пользователей", main: newMain})
         } else if (newMain === "home") {
             this.setState({title: "Главная", main: newMain})
+        } else if (newMain === "exercises") {
+            this.setState({title: "Упражнения", main: newMain})
         }
     }
 
@@ -29,7 +30,6 @@ class App extends React.Component {
             <div>
                 <Header setMain={this.setMain}/>
                 <Main main={this.state.main} title={this.state.title} />
-                <Aside main={this.state.main}/>
             </div>
         )
     }

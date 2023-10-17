@@ -19,7 +19,7 @@ class MenuList extends React.Component {
                 <ul className="menu_list">
                     <MenuElement buttonName="Программы" buttonFunction={() => {console.log("Нажали на Программы")}}/>
                     <MenuElement buttonName="Тренеровки" buttonFunction={() => {console.log("Нажали на Тренеровки")}}/>
-                    <MenuElement buttonName="Упражнения" buttonFunction={() => {console.log("Нажали на Упражнения")}}/>
+                    <MenuElement buttonName="Упражнения" buttonFunction={() => {this.props.setMain("exercises")}}/>
                     <MenuElement buttonName="Выход" buttonFunction={logout}/>
                 </ul>
             )

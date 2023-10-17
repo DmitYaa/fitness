@@ -1,5 +1,6 @@
 import React from "react"
-import MainUsers from "./MainUsers"
+import MainUsers from "./admin/MainUsers"
+import MainExercises from "./trainer/exercise/MainExercises"
 
 class Main extends React.Component {
 
@@ -18,6 +19,10 @@ class Main extends React.Component {
         } else if (this.props.main === "users") {
             return (
                 <MainUsers />
+            )
+        } else if (this.props.main === "exercises") {
+            return (
+                <MainExercises />
             )
         }
     }
