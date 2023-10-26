@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
     private static final Logger log = LoggerFactory.getLogger(BackendApplication.class);
 
-    @GetMapping
+   /* @GetMapping
     public String getHomePage() {
         log.info("get: /");
         return "index";
-    }
+    }*/
 }

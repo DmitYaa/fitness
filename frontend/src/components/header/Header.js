@@ -7,13 +7,11 @@ class Header extends React.Component {
     render() {
         return (
             <header className="header">
-                <div>
-                    <button className="header-button" onClick={() => this.props.setMain("home")}>
-                        <LuDumbbell />
-                    </button>
+                <button className="header-button" onClick={() => this.props.setMain("home")}>
+                    <LuDumbbell />
+                </button>
                     
-                    <Login setMain={this.props.setMain}/>
-                </div>
+                <Login setMain={this.props.setMain}/>
             </header>
         )
     }

@@ -27,7 +27,7 @@ class App extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="myBody">
                 <Header setMain={this.setMain}/>
                 <Main main={this.state.main} title={this.state.title} />
             </div>

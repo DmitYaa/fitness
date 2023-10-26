@@ -74,7 +74,7 @@ class MainUsers extends React.Component {
     render() {
         return (
             <main>
-                <label className="title">Пользователи</label>
+                <h1 className="title">Пользователи</h1>
                 <SearchUser getUsers={this.getUsers}/>
                 <Users users={this.state.users} onEdit={this.editUser} />
             </main>

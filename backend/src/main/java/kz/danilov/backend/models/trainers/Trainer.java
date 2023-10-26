@@ -16,13 +16,8 @@ public class Trainer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name")
-    @NotEmpty(message = "Name should not be empty")
-    private String name;
-
-    @Column(name = "password")
-    @NotEmpty(message = "Password should not be empty")
-    private String password;
+    @Column(name = "person_id")
+    private int personId;
 
     @Column(name = "rating")
     private double rating;
@@ -43,10 +38,9 @@ public class Trainer {
     public Trainer() {
     }
 
-    public Trainer(int id, String name, String password, double rating, List<Exercise> exercises, List<Task> tasks, List<Training> trainings, List<Program> programs) {
+    public Trainer(int id, int personId, double rating, List<Exercise> exercises, List<Task> tasks, List<Training> trainings, List<Program> programs) {
         this.id = id;
-        this.name = name;
-        this.password = password;
+        this.personId = personId;
         this.rating = rating;
         this.exercises = exercises;
         this.tasks = tasks;
@@ -62,20 +56,12 @@ public class Trainer {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public int getPersonId() {
+        return personId;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPersonId(int personId) {
+        this.personId = personId;
     }
 
     public double getRating() {
@@ -116,19 +102,5 @@ public class Trainer {
 
     public void setPrograms(List<Program> programs) {
         this.programs = programs;
-    }
-
-    @Override
-    public String toString() {
-        return "Trainer{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", rating=" + rating +
-                ", exercises=" + exercises +
-                ", tasks=" + tasks +
-                ", trainings=" + trainings +
-                ", programs=" + programs +
-                '}';
     }
 }

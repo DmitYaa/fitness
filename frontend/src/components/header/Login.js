@@ -49,16 +49,18 @@ class Login extends React.Component {
         } else {
             return (
                 <div className="login_form">
-                    <form >
-                        <input placeholder="Имя" onChange={(e) => this.setState({name: e.target.value})} />
-                        <input type="password" placeholder="Пароль" onChange={(e) => this.setState({password: e.target.value})} />
-                        <button type="button" onClick={() => {
-                            login({name: this.state.name, password: this.state.password}, this.setAllData)
-                        }}>Войти</button>
-                        <button type="button" onClick={() => {
-                            registration({name: this.state.name, password: this.state.password})
-                        }}>Регистрация</button>
-                    </form>
+                    <div className="div_login_form">
+                      <form >
+                          <input placeholder="Имя" onChange={(e) => this.setState({name: e.target.value})} />
+                          <input type="password" placeholder="Пароль" onChange={(e) => this.setState({password: e.target.value})} />
+                          <button type="button" onClick={() => {
+                              login({name: this.state.name, password: this.state.password}, this.setAllData)
+                          }}>Войти</button>
+                          <button type="button" onClick={() => {
+                              registration({name: this.state.name, password: this.state.password})
+                          }}>Регистрация</button>
+                      </form>
+                    </div>
                 </div>
             )
         }

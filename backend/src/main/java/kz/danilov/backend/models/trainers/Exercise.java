@@ -1,5 +1,7 @@
 package kz.danilov.backend.models.trainers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
@@ -32,10 +34,12 @@ public class Exercise {
     @Column(name = "image")
     private String image;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "trainer_id")
     private Trainer trainer;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "exercise")
     private List<Task> tasks;
 

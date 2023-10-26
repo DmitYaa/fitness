@@ -19,7 +19,7 @@ class Menu extends React.Component {
     render() {
 
         return (
-            <div>
+            <div className="div_menu">
                 <button className="menu-button" onClick={() => this.setOpen(!this.state.isOpen)}>
                     <BsPersonCircle />
                 </button>
