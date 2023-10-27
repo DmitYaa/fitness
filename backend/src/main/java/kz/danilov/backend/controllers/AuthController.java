@@ -9,6 +9,7 @@ import kz.danilov.backend.dto.PersonDataDTO;
 import kz.danilov.backend.models.Person;
 import kz.danilov.backend.security.JWTUtil;
 import kz.danilov.backend.security.PersonDetails;
+import kz.danilov.backend.security.SecurityUtil;
 import kz.danilov.backend.services.RegistrationService;
 import kz.danilov.backend.util.ErrorResponse;
 import kz.danilov.backend.util.ModelMapperUtil;
@@ -18,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -30,6 +32,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Enumeration;
 import java.util.Map;
 
@@ -131,6 +136,16 @@ public class AuthController {
         Person person = ((PersonDetails) authentication.getPrincipal()).getPerson();
 
         return ResponseEntity.status(HttpStatus.OK).body(Map.of("person_data", modelMapperUtil.convertToPersonDataDTO(person)));
+    }
+
+    @GetMapping("/get_file")
+    public ResponseEntity<?> getFile() throws IOException {
+        log.info("GET: /auth/get_file");
+        byte[] image = Files.readAllBytes(new File("D:\\Project\\fitness\\backend\\src\\main\\resources\\files\\testPhoto.jpeg").toPath());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/jpeg"))
+                .body(image);
     }
 
     /*@ExceptionHandler

@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +22,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 @Controller
@@ -59,5 +63,16 @@ public class TrainerController {
         List<Exercise> exercises = trainer.getExercises();
 
         return ResponseEntity.status(HttpStatus.OK).body(exercises);
+    }
+
+    @GetMapping("/get_file")
+    public ResponseEntity<?> getFile() throws IOException {
+        Person person = SecurityUtil.getPerson();
+        log.info("GET: /trainer/get_file  personId = " + person.getId());
+        byte[] image = Files.readAllBytes(new File("D:\\Project\\fitness\\backend\\src\\main\\resources\\files\\testPhoto.jpeg").toPath());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/jpeg"))
+                .body(image);
     }
 }

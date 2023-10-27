@@ -1,6 +1,7 @@
 import React from "react"
 import Button from "../../../utils/Button"
 import axios from "axios";
+import TrainerExercise from "./TrainerExercise"
 
 const url = "http://localhost:8080/trainer";
 
@@ -8,12 +9,17 @@ class MainExercises extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            exercises: [],
+            exercise: null
         }
 
-        this.test = this.test.bind(this)
+        this.getExercises()
+
+        this.getExercises = this.getExercises.bind(this)
+        this.setExercise = this.setExercise.bind(this)
     }
 
-    test() {
+    getExercises() {
         const token = localStorage.getItem("jwt")
         if (token !== undefined && token !== null && token !== "undefined") {
             axios.get(url + "/exercises", {
@@ -23,7 +29,7 @@ class MainExercises extends React.Component {
                 }
               })
               .then((res) => {
-                console.log(res.data)
+                this.setState({exercises: res.data})
               })
               .catch((error) => {
                 console.error(error)
@@ -31,22 +37,42 @@ class MainExercises extends React.Component {
         }
     }
 
+    setExercise(exercise) {
+        this.setState({exercise: exercise})
+    }
 
     render() {
         return (
             <main>
                 <h1 className="title">Упражнения</h1>
                 
-                <Button name={"Get trainer"} doIt={this.test}/>
 
-
-                <div className="Exercises_list">
-                    {/*левая часть с таблицей упражнений*/}
+                <div className="exercises_list">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th>Мышцы</th>
+                                <th>Описание</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.exercises.map((el) => (
+                                <tr key={el.id} onClick={() => this.setExercise(el)}>
+                                    <th>{el.name}</th>
+                                    <th>{el.muscle}</th>
+                                    <th>{el.description}</th>
+                                </tr>
+                            ))}
+                        </tbody>
+                    
+                    </table>
+                    
                 </div>
-                <div>
+                <div className="exercise_panel">
+                    <TrainerExercise exercise={this.state.exercise} />
+                    <Button name={"Get Exercises"} doIt={() => console.log(this.state.exercise)}/>
                     {/*правая часть с выбранным упражнением*/}
-
-                    {/*кнопка открытия упражнения как оно выглядит у пользователя!*/}
                 </div>
             </main>
         )

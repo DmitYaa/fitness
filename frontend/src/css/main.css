@@ -159,6 +159,7 @@ body {
 /*========================== MAIN =======================================*/
 main {
     width: 100%;
+    height: auto;
     float: left;
 }
 
@@ -210,5 +211,18 @@ main {
     width: 51%;
 }
 
+.exercises_list {
+    width: 65%;
+    float: left;
+}
+
+.exercise_panel {
+    width: 35%;
+    float: left;
+}
+
+tr:hover {
+    background-color: #523208;
+}
 
 /*========================== END MAIN =======================================*/

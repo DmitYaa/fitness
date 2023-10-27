@@ -23,7 +23,7 @@ public class WebMvcConfig implements WebMvcConfigurer  {
         registry.addMapping("/**") // Здесь укажите путь, на который хотите применить CORS
                 .allowedOrigins("http://localhost:3000") // Разрешенные источники (домены)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Разрешенные HTTP методы
-                .allowedHeaders("Content-Type", "Authorization", "Accept")// Разрешенные заголовки
+                .allowedHeaders("Content-Type", "Authorization", "Accept", "responsetype")// Разрешенные заголовки
                 .allowCredentials(true); // Разрешение передачи учетных данных (например, куки)
     }
 
