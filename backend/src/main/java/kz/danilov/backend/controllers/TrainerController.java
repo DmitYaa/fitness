@@ -69,7 +69,7 @@ public class TrainerController {
     public ResponseEntity<?> getFile() throws IOException {
         Person person = SecurityUtil.getPerson();
         log.info("GET: /trainer/get_file  personId = " + person.getId());
-        byte[] image = Files.readAllBytes(new File("D:\\Project\\fitness\\backend\\src\\main\\resources\\files\\testPhoto.jpeg").toPath());
+        byte[] image = Files.readAllBytes(new File("D:\\Project\\fitness\\backend\\src\\main\\resources\\files\\press.jpg").toPath());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .contentType(MediaType.valueOf("image/jpeg"))

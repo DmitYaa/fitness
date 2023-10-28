@@ -1,15 +1,18 @@
 import React from "react"
-import axios from "axios";
+import ReactPlayer from 'react-player'
+import axios from "axios"
 
 class TrainerExercise extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            image: ""
+            image: "",
+            video: "video/pressVideo.MOV"
+            //"http://localhost:8080/auth/video"
         }
 
         this.getImage()
-
+        
         this.getImage = this.getImage.bind(this)
     }
 
@@ -39,14 +42,24 @@ class TrainerExercise extends React.Component {
     
 
     render() {
-        if (this.props.exercise != null && this.state.image != "") {
+        if (this.props.exercise != null && this.state.image !== "") {
             return (
                 <div>
                     <p>{this.props.exercise.name}</p>
                     <p>{this.props.exercise.muscle}</p>
                     <p>{this.props.exercise.description}</p>
-                    <img alt="Изображение упражнения" src={`data:image/jpeg;charset=utf-8;base64,${this.state.image}`} width="360" height="480"/>
-                    <p>{this.props.exercise.video}</p>
+                    <p>Изображение:</p>
+                    <img 
+                        src={`data:image/jpeg;charset=utf-8;base64,${this.state.image}`}
+                        width="360"
+                        height="480"
+                        alt="Изображение упражнения"/>
+                    <p>Видео:</p>
+                    <ReactPlayer 
+                        url={this.state.video}
+                        width='80%'
+                        height='80%'
+                        controls = {true}/>
                 </div>
             )
         } else {

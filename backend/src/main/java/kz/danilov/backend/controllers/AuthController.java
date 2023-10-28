@@ -18,8 +18,11 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -34,6 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.util.Enumeration;
 import java.util.Map;
@@ -138,15 +142,22 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(Map.of("person_data", modelMapperUtil.convertToPersonDataDTO(person)));
     }
 
-    @GetMapping("/get_file")
-    public ResponseEntity<?> getFile() throws IOException {
-        log.info("GET: /auth/get_file");
-        byte[] image = Files.readAllBytes(new File("D:\\Project\\fitness\\backend\\src\\main\\resources\\files\\testPhoto.jpeg").toPath());
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .contentType(MediaType.valueOf("image/jpeg"))
-                .body(image);
-    }
+    /*@GetMapping("/video")
+    public ResponseEntity<UrlResource> getFullVideo() throws MalformedURLException {
+        log.info("get: /video");
+        UrlResource video = new UrlResource("file:src\\main\\resources\\files\\pressVideo.MOV");
+        return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
+                .contentType(MediaTypeFactory
+                        .getMediaType(video)
+                        .orElse(MediaType.APPLICATION_OCTET_STREAM))
+                .body(video);
+    }*/
+
+    /*@GetMapping("/video")
+    public ResponseEntity<FileSystemResource> getFullVideo() {
+        log.info("get: /video");
+        return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).body(new FileSystemResource("D:\\Project\\fitness\\backend\\src\\main\\resources\\files\\pressVideo.MOV"));
+    }*/
 
     /*@ExceptionHandler
     private ResponseEntity<ErrorResponse> handleException(JWTVerificationException e) {
