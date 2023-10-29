@@ -153,11 +153,7 @@ public class AuthController {
                 .body(video);
     }*/
 
-    /*@GetMapping("/video")
-    public ResponseEntity<FileSystemResource> getFullVideo() {
-        log.info("get: /video");
-        return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).body(new FileSystemResource("D:\\Project\\fitness\\backend\\src\\main\\resources\\files\\pressVideo.MOV"));
-    }*/
+
 
     /*@ExceptionHandler
     private ResponseEntity<ErrorResponse> handleException(JWTVerificationException e) {

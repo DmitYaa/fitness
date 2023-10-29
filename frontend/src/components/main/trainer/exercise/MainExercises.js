@@ -17,6 +17,8 @@ class MainExercises extends React.Component {
 
         this.getExercises = this.getExercises.bind(this)
         this.setExercise = this.setExercise.bind(this)
+        this.getImage = this.getImage.bind(this)
+        this.getVideo = this.getVideo.bind(this)
     }
 
     getExercises() {
@@ -39,6 +41,49 @@ class MainExercises extends React.Component {
 
     setExercise(exercise) {
         this.setState({exercise: exercise})
+        this.getImage(exercise.id);
+        this.getVideo(exercise.id);
+    }
+
+    getImage(id) {
+        const token = localStorage.getItem("jwt")
+            if (token !== undefined && token !== null && token !== "undefined") {
+                axios.get(url + "/get_image/" + id, {
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }, responseType: "arraybuffer"
+                })
+                    .then((res) => {
+                        const base64 = btoa(
+                            new Uint8Array(res.data).reduce(
+                            (data, byte) => data + String.fromCharCode(byte),
+                            ''
+                            )
+                        )
+                        this.setState({image: base64})
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                    })
+            }
+    }
+
+    getVideo(id) {
+        const token = localStorage.getItem("jwt")
+        if (token !== undefined && token !== null && token !== "undefined") {
+            axios.get(url + "/get_video/" + id, {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }, responseType: "arraybuffer"
+            })
+                .then((res) => {
+                    const myUrl = (window.URL || window.webkitURL).createObjectURL( new Blob([res.data]) ); 
+                    this.setState({video: myUrl})
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
+        }
     }
 
     render() {
@@ -70,7 +115,7 @@ class MainExercises extends React.Component {
                     
                 </div>
                 <div className="exercise_panel">
-                    <TrainerExercise exercise={this.state.exercise} />
+                    <TrainerExercise exercise={this.state.exercise} image={this.state.image} video={this.state.video}/>
                     <Button name={"Get Exercises"} doIt={() => console.log(this.state.exercise)}/>
                     {/*правая часть с выбранным упражнением*/}
                 </div>
