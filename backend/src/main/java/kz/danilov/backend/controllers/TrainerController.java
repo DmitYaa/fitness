@@ -63,9 +63,6 @@ public class TrainerController {
         return ResponseEntity.status(HttpStatus.OK).body(exercises);
     }
 
-
-
-
     @GetMapping("/get_image/{id}")
     public ResponseEntity<?> getImage(@PathVariable("id") int id) throws IOException {
         Person person = SecurityUtil.getPerson();

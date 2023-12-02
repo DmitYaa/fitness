@@ -141,24 +141,4 @@ public class AuthController {
 
         return ResponseEntity.status(HttpStatus.OK).body(Map.of("person_data", modelMapperUtil.convertToPersonDataDTO(person)));
     }
-
-    /*@GetMapping("/video")
-    public ResponseEntity<UrlResource> getFullVideo() throws MalformedURLException {
-        log.info("get: /video");
-        UrlResource video = new UrlResource("file:src\\main\\resources\\files\\pressVideo.MOV");
-        return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
-                .contentType(MediaTypeFactory
-                        .getMediaType(video)
-                        .orElse(MediaType.APPLICATION_OCTET_STREAM))
-                .body(video);
-    }*/
-
-
-
-    /*@ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(JWTVerificationException e) {
-        ErrorResponse response = new ErrorResponse("Ошибка верификации");
-
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-    }*/
 }

@@ -39,7 +39,6 @@ public class AdminController {
         log.info("GET: /admin/person/" + id);
 
         Person person = peopleService.findById(id);
-
         return ResponseEntity.status(HttpStatus.OK).body(person);
     }
 
