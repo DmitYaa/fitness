@@ -1,7 +1,7 @@
 import React from "react"
+import axios from "axios"
 import Button from "../../../utils/Button"
-import axios from "axios";
-import TrainerExercise from "./TrainerExercise"
+import ExercisePanel from "./ExercisePanel"
 
 const url = "http://localhost:8080/trainer";
 
@@ -64,6 +64,7 @@ class MainExercises extends React.Component {
                     })
                     .catch((error) => {
                         console.error(error)
+                        window.location.reload()
                     })
             }
     }
@@ -82,6 +83,7 @@ class MainExercises extends React.Component {
                 })
                 .catch((error) => {
                     console.error(error)
+                    window.location.reload()
                 })
         }
     }
@@ -112,13 +114,11 @@ class MainExercises extends React.Component {
                         </tbody>
                     
                     </table>
-                    
+
+                    <Button name={"Добавить упражнение"} doIt={() => this.setState({exercise: null})}/>
                 </div>
-                <div className="exercise_panel">
-                    <TrainerExercise exercise={this.state.exercise} image={this.state.image} video={this.state.video}/>
-                    <Button name={"Get Exercises"} doIt={() => console.log(this.state.exercise)}/>
-                    {/*правая часть с выбранным упражнением*/}
-                </div>
+                <ExercisePanel exercise={this.state.exercise} image={this.state.image} video={this.state.video}/>
+                
             </main>
         )
     }

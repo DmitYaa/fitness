@@ -2,62 +2,6 @@ import React from "react"
 import ReactPlayer from 'react-player'
 
 class TrainerExercise extends React.Component {
-    /*constructor(props) {
-        super(props)
-        this.state = {
-            image: "",
-            video: ""
-        }
-
-        this.getImage(1)
-        this.getVideo()
-        
-        this.getImage = this.getImage.bind(this)
-        this.getVideo = this.getVideo.bind(this)
-    }*/
-
-
-    /*getImage(id) {
-        const token = localStorage.getItem("jwt")
-            if (token !== undefined && token !== null && token !== "undefined") {
-                axios.get("http://localhost:8080/trainer/get_image/" + id, {
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    }, responseType: "arraybuffer"
-                })
-                    .then((res) => {
-                        const base64 = btoa(
-                            new Uint8Array(res.data).reduce(
-                            (data, byte) => data + String.fromCharCode(byte),
-                            ''
-                            )
-                        )
-                        this.setState({image: base64})
-                    })
-                    .catch((error) => {
-                        console.error(error)
-                    })
-            }
-    }
-
-    getVideo() {
-        const token = localStorage.getItem("jwt")
-        if (token !== undefined && token !== null && token !== "undefined") {
-            axios.get("http://localhost:8080/trainer/video", {
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                }, responseType: "arraybuffer"
-            })
-                .then((res) => {
-                    const myUrl = (window.URL || window.webkitURL).createObjectURL( new Blob([res.data]) ); 
-                    this.setState({video: myUrl})
-                })
-                .catch((error) => {
-                    console.error(error)
-                })
-        }
-    }*/
-    
 
     render() {
         if (this.props.exercise !== null) {

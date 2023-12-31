@@ -1,6 +1,8 @@
 package kz.danilov.backend.controllers;
 
 import kz.danilov.backend.BackendApplication;
+import kz.danilov.backend.dto.trainers.ExerciseDTO;
+import kz.danilov.backend.dto.trainers.NewExerciseDTO;
 import kz.danilov.backend.models.Person;
 import kz.danilov.backend.models.trainers.Exercise;
 import kz.danilov.backend.models.trainers.Trainer;
@@ -16,9 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,14 +53,14 @@ public class TrainerController {
     }
 
     @GetMapping("/exercises")
-    public ResponseEntity<List<Exercise>> getAllExercises() {
+    public ResponseEntity<List<ExerciseDTO>> getAllExercises() {
         Person person = SecurityUtil.getPerson();
         log.info("GET: /trainer/exercises  personId = " + person.getId());
 
         Trainer trainer = trainersService.findByPersonId(person.getId());
         List<Exercise> exercises = trainer.getExercises();
 
-        return ResponseEntity.status(HttpStatus.OK).body(exercises);
+        return ResponseEntity.status(HttpStatus.OK).body(modelMapperUtil.convertToListOfExerciseDTO(exercises));
     }
 
     @GetMapping("/get_image/{id}")
@@ -90,9 +90,28 @@ public class TrainerController {
         Exercise exercise = exercisesService.findById(id);
         Trainer trainer = trainersService.findByPersonId(person.getId());
         if (exercise != null && exercise.getTrainer() == trainer) {
-            return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).body(new FileSystemResource(exercise.getVideo()));
+            return ResponseEntity
+                    .status(HttpStatus.PARTIAL_CONTENT)
+                    .body(new FileSystemResource(exercise.getVideo()));
         } else
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND).body(null);
+    }
+
+    @PostMapping("/post_exercise_and_get_all_exercises")
+    public ResponseEntity<List<ExerciseDTO>> postExerciseAndGetAllExercises(@RequestBody NewExerciseDTO newExerciseDTO) {
+        Person person = SecurityUtil.getPerson();
+        log.info("GET: /post_exercise_and_get_all_exercises" + "  personId = " + person.getId());
+
+        log.info("Надо записать все в БД!");
+        log.info("exerciseDTO = " + newExerciseDTO);
+
+
+
+
+        Trainer trainer = trainersService.findByPersonId(person.getId());
+        List<Exercise> exercises = trainer.getExercises();
+
+        return ResponseEntity.status(HttpStatus.OK).body(modelMapperUtil.convertToListOfExerciseDTO(exercises));
     }
 }

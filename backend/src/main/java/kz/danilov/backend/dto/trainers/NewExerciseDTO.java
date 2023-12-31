@@ -1,34 +1,27 @@
 package kz.danilov.backend.dto.trainers;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotEmpty;
+import java.util.Arrays;
 
 /**
  * User: Nikolai Danilov
- * Date: 29.10.2023
+ * Date: 31.12.2023
  */
-public class ExerciseDTO {
-    private int id;
+public class NewExerciseDTO {
     private String name;
     private String muscle;
     private String description;
+    private byte[] image;
+    private byte[] video;
 
-    public ExerciseDTO() {
+    public NewExerciseDTO() {
     }
 
-    public ExerciseDTO(int id, String name, String muscle, String description) {
-        this.id = id;
+    public NewExerciseDTO(String name, String muscle, String description, byte[] image, byte[] video) {
         this.name = name;
         this.muscle = muscle;
         this.description = description;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.image = image;
+        this.video = video;
     }
 
     public String getName() {
@@ -55,13 +48,30 @@ public class ExerciseDTO {
         this.description = description;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public byte[] getVideo() {
+        return video;
+    }
+
+    public void setVideo(byte[] video) {
+        this.video = video;
+    }
+
     @Override
     public String toString() {
-        return "ExerciseDTO{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+        return "NewExerciseDTO{" +
+                "name='" + name + '\'' +
                 ", muscle='" + muscle + '\'' +
                 ", description='" + description + '\'' +
+                ", image==null? " + (image == null) +
+                ", video==null? " + (video == null) +
                 '}';
     }
 }

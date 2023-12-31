@@ -3,7 +3,9 @@ package kz.danilov.backend.util;
 import kz.danilov.backend.dto.PersonDTO;
 import kz.danilov.backend.dto.PersonDataDTO;
 import kz.danilov.backend.dto.PersonOnlyWithNameDTO;
+import kz.danilov.backend.dto.trainers.ExerciseDTO;
 import kz.danilov.backend.models.Person;
+import kz.danilov.backend.models.trainers.Exercise;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,6 +41,15 @@ public class ModelMapperUtil {
         }
 
         return personDataDTOList;
+    }
+
+    public List<ExerciseDTO> convertToListOfExerciseDTO(List<Exercise> exercises) {
+        List<ExerciseDTO> exerciseDTOList = new ArrayList<>(exercises.size());
+        for (Exercise exercise : exercises) {
+            exerciseDTOList.add(this.modelMapper.map(exercise, ExerciseDTO.class));
+        }
+
+        return exerciseDTOList;
     }
 
     public Person convertToPerson(PersonOnlyWithNameDTO personOnlyWithNameDTO) {
