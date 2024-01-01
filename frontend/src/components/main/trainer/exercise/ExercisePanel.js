@@ -64,11 +64,11 @@ class ExercisePanel extends React.Component {
                         </p>
                         <p>
                             <b>Изображение:</b>
-                            <input name="image" type="file"/>
+                            <input name="image" type="file" onChange={(e) => this.setState({image: e.target.files[0]})}/>
                         </p>
                         <p>
                             <b>Видео:</b>
-                            <input name="video" type="file"/>
+                            <input name="video" type="file" onChange={(e) => this.setState({video: e.target.files[0]})}/>
                         </p>
                         
                         <button type="button" onClick={() => this.postExercise()}>Добавить упражнение</button>
