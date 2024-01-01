@@ -4,6 +4,7 @@ import TrainerExercise from "./TrainerExercise"
 import Button from "../../../utils/Button"
 
 const url = "http://localhost:8080/trainer"
+const fileReader = new FileReader()
 
 class ExercisePanel extends React.Component {
     constructor(props) {
@@ -13,9 +14,13 @@ class ExercisePanel extends React.Component {
             muscle: props.muscle,
             description: props.description,
             image: props.image,
+            imageUrl: props.imageUrl,
             video: props.video
         }
 
+        fileReader.onloadend = () => {
+            this.setState({imageUrl: fileReader.result})
+        }
 
         this.postExercise = this.postExercise.bind(this)
     }
@@ -23,24 +28,35 @@ class ExercisePanel extends React.Component {
     postExercise() {
         const token = localStorage.getItem("jwt")
         if (token !== undefined && token !== null && token !== "undefined") {
-            axios.post(url + "/post_exercise_and_get_all_exercises", {
-                name: this.state.name, 
-                muscle: this.state.muscle, 
-                description: this.state.description,
-                image: this.state.image, 
-                video: this.state.video
+            axios.post(url + "/new_exercise", {
+                name: this.state.name,
+                muscle: this.state.muscle,
+                description: this.state.description
             }, {
                 headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': 'Bearer ' + token
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 }
-              })
-              .then((res) => {
-                console.log("форма отправлена успешно")
-              })
-              .catch((error) => {
+            }).then((res) => {
+                const formData = new FormData();
+                formData.append(
+                    "image",
+                    this.state.image
+                )
+
+                axios.put(url + "/image/" + res.data, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': 'Bearer ' + token
+                    }
+                }).then((res) => {
+                    console.log(res)
+                }).catch((error) => {
+                    console.error(error)
+                })
+            }).catch((error) => {
                 console.error(error)
-              })
+            })
         }
     }
 
@@ -64,11 +80,20 @@ class ExercisePanel extends React.Component {
                         </p>
                         <p>
                             <b>Изображение:</b>
-                            <input name="image" type="file" onChange={(e) => this.setState({image: e.target.files[0]})}/>
+                            <input name="image" type="file" onChange={(e) => {
+                                this.setState({image: e.target.files[0]})
+                                fileReader.readAsDataURL(e.target.files[0])
+                            }}/>
+                            <img 
+                                src={this.state.imageUrl ? this.state.imageUrl : "logo512.png"}
+                                width="360"
+                                height="480"
+                                alt="Изображение упражнения"
+                            />
                         </p>
                         <p>
                             <b>Видео:</b>
-                            <input name="video" type="file" onChange={(e) => this.setState({video: e.target.files[0]})}/>
+                            <input name="video" type="file" onChange={(e) => console.log(e.target)}/>
                         </p>
                         
                         <button type="button" onClick={() => this.postExercise()}>Добавить упражнение</button>

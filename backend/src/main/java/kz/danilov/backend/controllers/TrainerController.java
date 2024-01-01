@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -98,20 +99,25 @@ public class TrainerController {
                     .status(HttpStatus.NOT_FOUND).body(null);
     }
 
-    @PostMapping("/post_exercise_and_get_all_exercises")
-    public ResponseEntity<List<ExerciseDTO>> postExerciseAndGetAllExercises(@RequestBody NewExerciseDTO newExerciseDTO) {
+    @PostMapping("/new_exercise")
+    public ResponseEntity<Integer> postNewExercise(@RequestBody NewExerciseDTO newExerciseDTO) {
         Person person = SecurityUtil.getPerson();
-        log.info("GET: /post_exercise_and_get_all_exercises" + "  personId = " + person.getId());
+        log.info("GET: /new_exercise" + "  personId = " + person.getId());
 
-        log.info("Надо записать все в БД!");
-        log.info("exerciseDTO = " + newExerciseDTO);
+        log.info("нужно записать в БД exerciseDTO = " + newExerciseDTO);
+        log.info("и вернуть его id из базы");
+        int id = 1;
 
+        return ResponseEntity.status(HttpStatus.OK).body(id);
+    }
 
+    @PutMapping("/image/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void putImage(@PathVariable("id") int id, @RequestParam("image") MultipartFile image) {
+        Person person = SecurityUtil.getPerson();
+        log.info("GET: /image/" + id +  "  personId = " + person.getId());
 
-
-        Trainer trainer = trainersService.findByPersonId(person.getId());
-        List<Exercise> exercises = trainer.getExercises();
-
-        return ResponseEntity.status(HttpStatus.OK).body(modelMapperUtil.convertToListOfExerciseDTO(exercises));
+        String fileName = image.getOriginalFilename();
+        log.info("Надо обработать файл с fileName = " + fileName);
     }
 }

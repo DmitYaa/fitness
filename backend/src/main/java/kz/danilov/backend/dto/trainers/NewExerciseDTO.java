@@ -1,5 +1,7 @@
 package kz.danilov.backend.dto.trainers;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Arrays;
 
 /**
@@ -10,18 +12,14 @@ public class NewExerciseDTO {
     private String name;
     private String muscle;
     private String description;
-    private byte[] image;
-    private byte[] video;
 
     public NewExerciseDTO() {
     }
 
-    public NewExerciseDTO(String name, String muscle, String description, byte[] image, byte[] video) {
+    public NewExerciseDTO(String name, String muscle, String description) {
         this.name = name;
         this.muscle = muscle;
         this.description = description;
-        this.image = image;
-        this.video = video;
     }
 
     public String getName() {
@@ -48,30 +46,12 @@ public class NewExerciseDTO {
         this.description = description;
     }
 
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public byte[] getVideo() {
-        return video;
-    }
-
-    public void setVideo(byte[] video) {
-        this.video = video;
-    }
-
     @Override
     public String toString() {
         return "NewExerciseDTO{" +
                 "name='" + name + '\'' +
                 ", muscle='" + muscle + '\'' +
                 ", description='" + description + '\'' +
-                ", image==null? " + (image == null) +
-                ", video==null? " + (video == null) +
                 '}';
     }
 }
