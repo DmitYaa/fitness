@@ -117,7 +117,7 @@ class MainExercises extends React.Component {
 
                     <Button name={"Добавить упражнение"} doIt={() => this.setState({exercise: null})}/>
                 </div>
-                <ExercisePanel exercise={this.state.exercise} image={this.state.image} video={this.state.video}/>
+                <ExercisePanel exercise={this.state.exercise} image={this.state.image} video={this.state.video} refresh={this.getExercises}/>
                 
             </main>
         )

@@ -4,6 +4,7 @@ import kz.danilov.backend.dto.PersonDTO;
 import kz.danilov.backend.dto.PersonDataDTO;
 import kz.danilov.backend.dto.PersonOnlyWithNameDTO;
 import kz.danilov.backend.dto.trainers.ExerciseDTO;
+import kz.danilov.backend.dto.trainers.NewExerciseDTO;
 import kz.danilov.backend.models.Person;
 import kz.danilov.backend.models.trainers.Exercise;
 import org.modelmapper.ModelMapper;
@@ -50,6 +51,10 @@ public class ModelMapperUtil {
         }
 
         return exerciseDTOList;
+    }
+
+    public Exercise convertToExercise(NewExerciseDTO newExerciseDTO) {
+        return this.modelMapper.map(newExerciseDTO, Exercise.class);
     }
 
     public Person convertToPerson(PersonOnlyWithNameDTO personOnlyWithNameDTO) {

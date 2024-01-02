@@ -13,6 +13,7 @@ import kz.danilov.backend.util.ModelMapperUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,6 +33,8 @@ public class TrainerController {
 
     private static final Logger log = LoggerFactory.getLogger(BackendApplication.class);
 
+    @Value("${path_to_files}")
+    private String pathToFiles;
     private final TrainersService trainersService;
     private final ExercisesService exercisesService;
     private final ModelMapperUtil modelMapperUtil;
@@ -102,22 +105,56 @@ public class TrainerController {
     @PostMapping("/new_exercise")
     public ResponseEntity<Integer> postNewExercise(@RequestBody NewExerciseDTO newExerciseDTO) {
         Person person = SecurityUtil.getPerson();
-        log.info("GET: /new_exercise" + "  personId = " + person.getId());
+        log.info("POST: /new_exercise" + "  personId = " + person.getId());
 
-        log.info("нужно записать в БД exerciseDTO = " + newExerciseDTO);
-        log.info("и вернуть его id из базы");
-        int id = 1;
+        Trainer trainer = trainersService.findByPersonId(person.getId());
+        Exercise exercise = modelMapperUtil.convertToExercise(newExerciseDTO);
+        exercise.setTrainer(trainer);
+        exercise.setImage(pathToFiles + "\\simple_image.jpg");
+        exercise.setVideo(pathToFiles + "\\simple_video.mp4");
+
+        int id = exercisesService.saveNewExercise(exercise);
 
         return ResponseEntity.status(HttpStatus.OK).body(id);
     }
 
     @PutMapping("/image/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void putImage(@PathVariable("id") int id, @RequestParam("image") MultipartFile image) {
+    public ResponseEntity<?> putImage(@PathVariable("id") int id, @RequestParam("image") MultipartFile image) {
         Person person = SecurityUtil.getPerson();
-        log.info("GET: /image/" + id +  "  personId = " + person.getId());
+        log.info("PUT: /image/" + id +  "  personId = " + person.getId());
 
         String fileName = image.getOriginalFilename();
-        log.info("Надо обработать файл с fileName = " + fileName);
+        try {
+            File file = new File(pathToFiles + "\\" + id + "_" + fileName);
+            image.transferTo(file);
+
+            Exercise exercise = exercisesService.findById(id);
+            exercise.setImage(file.getPath());
+            exercisesService.saveExercise(exercise);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PutMapping("/video/{id}")
+    public ResponseEntity<?> putVideo(@PathVariable("id") int id, @RequestParam("video") MultipartFile video) {
+        Person person = SecurityUtil.getPerson();
+        log.info("PUT: /video/" + id +  "  personId = " + person.getId());
+
+        String fileName = video.getOriginalFilename();
+        try {
+            File file = new File(pathToFiles + "\\" + id + "_" + fileName);
+            video.transferTo(file);
+
+            Exercise exercise = exercisesService.findById(id);
+            exercise.setVideo(file.getPath());
+            exercisesService.saveExercise(exercise);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
