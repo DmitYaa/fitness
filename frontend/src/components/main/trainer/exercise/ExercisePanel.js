@@ -1,7 +1,7 @@
 import React from "react"
 import NewExercise from "./NewExercise"
-import TrainerExercise from "./TrainerExercise"
 import Button from "../../../utils/Button"
+import EditeExercise from "./EditeExercise"
 
 
 class ExercisePanel extends React.Component {
@@ -28,7 +28,12 @@ class ExercisePanel extends React.Component {
         } else {
             return (
                 <div className="exercise_panel">
-                    <TrainerExercise exercise={this.props.exercise} image={this.props.image} video={this.props.video}/>
+                    <EditeExercise 
+                        exercise={this.props.exercise} 
+                        image={this.props.image} 
+                        video={this.props.video} 
+                        refresh={this.props.refresh}/>
+                    {/* <TrainerExercise exercise={this.props.exercise} image={this.props.image} video={this.props.video}/> */}
                     <Button name={"Просмотр упражнения"} doIt={() => console.log(this.props.exercise)}/>
                 </div>
             )

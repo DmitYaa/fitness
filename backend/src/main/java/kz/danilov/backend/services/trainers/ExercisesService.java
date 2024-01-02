@@ -1,6 +1,5 @@
 package kz.danilov.backend.services.trainers;
 
-import kz.danilov.backend.dto.trainers.NewExerciseDTO;
 import kz.danilov.backend.models.trainers.Exercise;
 import kz.danilov.backend.repositories.trainers.ExercisesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * User: Nikolai Danilov
