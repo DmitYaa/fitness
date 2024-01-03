@@ -118,6 +118,21 @@ public class TrainerController {
         return ResponseEntity.status(HttpStatus.OK).body(id);
     }
 
+    @PutMapping("/edite_exercise")
+    public ResponseEntity<?> postEditeExercise(@RequestBody ExerciseDTO exerciseDTO) {
+        Person person = SecurityUtil.getPerson();
+        log.info("POST: /new_exercise" + "  personId = " + person.getId());
+
+        Exercise exercise = exercisesService.findById(exerciseDTO.getId());
+        exercise.setName(exerciseDTO.getName());
+        exercise.setMuscle(exerciseDTO.getMuscle());
+        exercise.setDescription(exerciseDTO.getDescription());
+
+        exercisesService.saveExercise(exercise);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
     @PutMapping("/image/{id}")
     public ResponseEntity<?> putImage(@PathVariable("id") int id, @RequestParam("image") MultipartFile image) {
         Person person = SecurityUtil.getPerson();

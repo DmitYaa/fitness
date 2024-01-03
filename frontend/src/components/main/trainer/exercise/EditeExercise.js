@@ -1,5 +1,6 @@
 import React from "react"
 import ReactPlayer from 'react-player'
+import axios from "axios"
 
 const url = "http://localhost:8080/trainer"
 const imageReader = new FileReader()
@@ -25,7 +26,70 @@ class EditeExercise extends React.Component {
     }
 
     postEditExercise() {
-        console.log("тут надо добавить все изменения в упражнение! " + url)
+        const token = localStorage.getItem("jwt")
+        if (token !== undefined && token !== null && token !== "undefined") {
+            axios.put(url + "/edite_exercise", {
+                id: this.props.exercise.id,
+                name: this.state.name !== null ? this.state.name : this.props.exercise.name,
+                muscle: this.state.muscle !== null ? this.state.muscle : this.props.exercise.muscle,
+                description: this.state.description !== null ? this.state.description : this.props.exercise.description
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }
+            }).then((res) => {
+                if (this.state.image !== null) {
+                    const formData = new FormData()
+                    formData.append(
+                        "image",
+                        this.state.image
+                    )
+    
+                    axios.put(url + "/image/" + this.props.exercise.id, formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            'Authorization': 'Bearer ' + token
+                        }
+                    }).then((res) => {
+                        this.props.refresh()
+                        this.setState({image: null,
+                            imageUrl: null})
+                    }).catch((error) => {
+                        console.error(error)
+                    })
+                }
+
+                if (this.state.video !== null) {
+                    const formData = new FormData()
+                    formData.append(
+                        "video",
+                        this.state.video
+                    )
+    
+                    axios.put(url + "/video/" + this.props.exercise.id, formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            'Authorization': 'Bearer ' + token
+                        }
+                    }).then((res) => {
+                        this.props.refresh()
+                        this.setState({video: null,
+                            videoUrl: null})
+                    }).catch((error) => {
+                        console.error(error)
+                    })
+                }
+
+                this.props.refresh()
+
+                this.setState({name: null,
+                    muscle: null,
+                    description: null})
+            }).catch((error) => {
+                console.error(error)
+            })
+        }
     }
 
     render() {
