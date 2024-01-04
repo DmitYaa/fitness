@@ -2,7 +2,7 @@ import React from "react"
 import ReactPlayer from 'react-player'
 import axios from "axios"
 
-const url = "http://localhost:8080/trainer"
+const url = "http://localhost:8080/trainer/exercise"
 const imageReader = new FileReader()
 
 class EditeExercise extends React.Component {
@@ -28,7 +28,7 @@ class EditeExercise extends React.Component {
     postEditExercise() {
         const token = localStorage.getItem("jwt")
         if (token !== undefined && token !== null && token !== "undefined") {
-            axios.put(url + "/edite_exercise", {
+            axios.put(url + "/edite", {
                 id: this.props.exercise.id,
                 name: this.state.name !== null ? this.state.name : this.props.exercise.name,
                 muscle: this.state.muscle !== null ? this.state.muscle : this.props.exercise.muscle,

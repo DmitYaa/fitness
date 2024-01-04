@@ -3,7 +3,7 @@ import axios from "axios"
 import Button from "../../../utils/Button"
 import ExercisePanel from "./ExercisePanel"
 
-const url = "http://localhost:8080/trainer";
+const url = "http://localhost:8080/trainer/exercise";
 
 class MainExercises extends React.Component {
     constructor(props) {
@@ -24,7 +24,7 @@ class MainExercises extends React.Component {
     getExercises() {
         const token = localStorage.getItem("jwt")
         if (token !== undefined && token !== null && token !== "undefined") {
-            axios.get(url + "/exercises", {
+            axios.get(url + "/all", {
                 headers: {
                   'Content-Type': 'application/json',
                   'Authorization': 'Bearer ' + token

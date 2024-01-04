@@ -5,8 +5,10 @@ import kz.danilov.backend.dto.PersonDataDTO;
 import kz.danilov.backend.dto.PersonOnlyWithNameDTO;
 import kz.danilov.backend.dto.trainers.ExerciseDTO;
 import kz.danilov.backend.dto.trainers.NewExerciseDTO;
+import kz.danilov.backend.dto.trainers.TaskDTO;
 import kz.danilov.backend.models.Person;
 import kz.danilov.backend.models.trainers.Exercise;
+import kz.danilov.backend.models.trainers.Task;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -57,7 +59,12 @@ public class ModelMapperUtil {
         return this.modelMapper.map(newExerciseDTO, Exercise.class);
     }
 
-    public Person convertToPerson(PersonOnlyWithNameDTO personOnlyWithNameDTO) {
-        return this.modelMapper.map(personOnlyWithNameDTO, Person.class);
+    public List<TaskDTO> convertToListOfTaskDTO(List<Task> tasks) {
+        List<TaskDTO> tasksDTOList = new ArrayList<>(tasks.size());
+        for (Task task : tasks) {
+            tasksDTOList.add(this.modelMapper.map(task, TaskDTO.class));
+        }
+
+        return tasksDTOList;
     }
 }

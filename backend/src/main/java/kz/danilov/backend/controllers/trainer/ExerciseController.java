@@ -1,4 +1,4 @@
-package kz.danilov.backend.controllers;
+package kz.danilov.backend.controllers.trainer;
 
 import kz.danilov.backend.BackendApplication;
 import kz.danilov.backend.dto.trainers.ExerciseDTO;
@@ -8,7 +8,6 @@ import kz.danilov.backend.models.trainers.Exercise;
 import kz.danilov.backend.models.trainers.Trainer;
 import kz.danilov.backend.security.SecurityUtil;
 import kz.danilov.backend.services.trainers.ExercisesService;
-import kz.danilov.backend.services.trainers.TasksService;
 import kz.danilov.backend.services.trainers.TrainersService;
 import kz.danilov.backend.util.ModelMapperUtil;
 import org.slf4j.Logger;
@@ -28,38 +27,29 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
+/**
+ * User: Nikolai Danilov
+ * Date: 04.01.2024
+ */
 @Controller
-@RequestMapping("/trainer")
-public class TrainerController {
-
+@RequestMapping("/trainer/exercise")
+public class ExerciseController {
     private static final Logger log = LoggerFactory.getLogger(BackendApplication.class);
 
     @Value("${path_to_files}")
     private String pathToFiles;
     private final TrainersService trainersService;
     private final ExercisesService exercisesService;
-    private final TasksService tasksService;
     private final ModelMapperUtil modelMapperUtil;
 
     @Autowired
-    public TrainerController(TrainersService trainersService, ExercisesService exercisesService, TasksService tasksService, ModelMapperUtil modelMapperUtil) {
+    public ExerciseController(TrainersService trainersService, ExercisesService exercisesService, ModelMapperUtil modelMapperUtil) {
         this.trainersService = trainersService;
         this.exercisesService = exercisesService;
-        this.tasksService = tasksService;
         this.modelMapperUtil = modelMapperUtil;
     }
 
-    @GetMapping
-    public ResponseEntity<Trainer> getTrainer() {
-        Person person = SecurityUtil.getPerson();
-        log.info("GET: /trainer/exercises  personId = " + person.getId());
-
-        Trainer trainer = trainersService.findByPersonId(person.getId());
-
-        return ResponseEntity.status(HttpStatus.OK).body(trainer);
-    }
-
-    @GetMapping("/exercises")
+    @GetMapping("/all")
     public ResponseEntity<List<ExerciseDTO>> getAllExercises() {
         Person person = SecurityUtil.getPerson();
         log.info("GET: /trainer/exercises  personId = " + person.getId());
@@ -105,7 +95,7 @@ public class TrainerController {
                     .status(HttpStatus.NOT_FOUND).body(null);
     }
 
-    @PostMapping("/new_exercise")
+    @PostMapping("/new")
     public ResponseEntity<Integer> postNewExercise(@RequestBody NewExerciseDTO newExerciseDTO) {
         Person person = SecurityUtil.getPerson();
         log.info("POST: /new_exercise" + "  personId = " + person.getId());
@@ -121,7 +111,7 @@ public class TrainerController {
         return ResponseEntity.status(HttpStatus.OK).body(id);
     }
 
-    @PutMapping("/edite_exercise")
+    @PutMapping("/edite")
     public ResponseEntity<?> postEditeExercise(@RequestBody ExerciseDTO exerciseDTO) {
         Person person = SecurityUtil.getPerson();
         log.info("POST: /new_exercise" + "  personId = " + person.getId());
