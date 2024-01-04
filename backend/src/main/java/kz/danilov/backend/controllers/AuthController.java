@@ -7,10 +7,12 @@ import kz.danilov.backend.dto.JwtDTO;
 import kz.danilov.backend.dto.PersonDTO;
 import kz.danilov.backend.dto.PersonDataDTO;
 import kz.danilov.backend.models.Person;
+import kz.danilov.backend.models.trainers.Trainer;
 import kz.danilov.backend.security.JWTUtil;
 import kz.danilov.backend.security.PersonDetails;
 import kz.danilov.backend.security.SecurityUtil;
 import kz.danilov.backend.services.RegistrationService;
+import kz.danilov.backend.services.trainers.TrainersService;
 import kz.danilov.backend.util.ErrorResponse;
 import kz.danilov.backend.util.ModelMapperUtil;
 import kz.danilov.backend.util.validators.PersonValidator;
@@ -50,16 +52,23 @@ public class AuthController {
     private final JWTUtil jwtUtil;
     private final ModelMapperUtil modelMapperUtil;
     private final AuthenticationManager authenticationManager;
+    private final TrainersService trainersService;
 
     private static final Logger log = LoggerFactory.getLogger(BackendApplication.class);
 
     @Autowired
-    public AuthController(RegistrationService registrationService, PersonValidator personValidator, JWTUtil jwtUtil, ModelMapperUtil modelMapperUtil, AuthenticationManager authenticationManager) {
+    public AuthController(RegistrationService registrationService,
+                          PersonValidator personValidator,
+                          JWTUtil jwtUtil,
+                          ModelMapperUtil modelMapperUtil,
+                          AuthenticationManager authenticationManager,
+                          TrainersService trainersService) {
         this.registrationService = registrationService;
         this.personValidator = personValidator;
         this.jwtUtil = jwtUtil;
         this.modelMapperUtil = modelMapperUtil;
         this.authenticationManager = authenticationManager;
+        this.trainersService = trainersService;
     }
 
     @PostMapping("/registration/user")
@@ -92,6 +101,7 @@ public class AuthController {
         registrationService.registerTrainer(person);
 
         String token = jwtUtil.generateToken(person.getName());
+        Trainer trainer = trainersService.saveNewTrainer(person.getId());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("jwt", token));
     }

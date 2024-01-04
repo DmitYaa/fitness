@@ -9,6 +9,14 @@ public class PersonDTO {
     @NotEmpty(message = "Password should not be empty")
     private String password;
 
+    public PersonDTO() {
+    }
+
+    public PersonDTO(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
+
     public String getName() {
         return name;
     }

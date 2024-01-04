@@ -8,10 +8,18 @@ import kz.danilov.backend.dto.PersonDTO;
  */
 public class Util {
 
-    public static PersonDTO createTestLoginPersonDTO() {
+    public static PersonDTO createTestUserPersonDTO() {
         PersonDTO personDTO = new PersonDTO();
         personDTO.setName("Tom");
         personDTO.setPassword("password");
+
+        return personDTO;
+    }
+
+    public static PersonDTO createTestTrainerPersonDTO() {
+        PersonDTO personDTO = new PersonDTO();
+        personDTO.setName("Trainer");
+        personDTO.setPassword("Trainer");
 
         return personDTO;
     }
