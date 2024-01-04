@@ -8,6 +8,7 @@ import kz.danilov.backend.models.trainers.Exercise;
 import kz.danilov.backend.models.trainers.Trainer;
 import kz.danilov.backend.security.SecurityUtil;
 import kz.danilov.backend.services.trainers.ExercisesService;
+import kz.danilov.backend.services.trainers.TasksService;
 import kz.danilov.backend.services.trainers.TrainersService;
 import kz.danilov.backend.util.ModelMapperUtil;
 import org.slf4j.Logger;
@@ -37,12 +38,14 @@ public class TrainerController {
     private String pathToFiles;
     private final TrainersService trainersService;
     private final ExercisesService exercisesService;
+    private final TasksService tasksService;
     private final ModelMapperUtil modelMapperUtil;
 
     @Autowired
-    public TrainerController(TrainersService trainersService, ExercisesService exercisesService, ModelMapperUtil modelMapperUtil) {
+    public TrainerController(TrainersService trainersService, ExercisesService exercisesService, TasksService tasksService, ModelMapperUtil modelMapperUtil) {
         this.trainersService = trainersService;
         this.exercisesService = exercisesService;
+        this.tasksService = tasksService;
         this.modelMapperUtil = modelMapperUtil;
     }
 

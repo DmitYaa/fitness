@@ -1,6 +1,7 @@
 import React from "react"
 import MainUsers from "./admin/MainUsers"
 import MainExercises from "./trainer/exercise/MainExercises"
+import MainTasks from "./trainer/task/MainTasks"
 
 class Main extends React.Component {
 
@@ -23,6 +24,10 @@ class Main extends React.Component {
         } else if (this.props.main === "exercises") {
             return (
                 <MainExercises />
+            )
+        } else if (this.props.main === "tasks") {
+            return (
+                <MainTasks />
             )
         }
     }

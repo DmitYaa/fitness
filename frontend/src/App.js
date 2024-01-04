@@ -22,6 +22,8 @@ class App extends React.Component {
             this.setState({title: "Главная", main: newMain})
         } else if (newMain === "exercises") {
             this.setState({title: "Упражнения", main: newMain})
+        } else if (newMain === "tasks") {
+            this.setState({title: "Задачи", main: newMain})
         }
     }
 
