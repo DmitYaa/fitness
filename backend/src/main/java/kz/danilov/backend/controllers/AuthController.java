@@ -142,12 +142,8 @@ public class AuthController {
     }
 
     @GetMapping("/get_person_data")
-    public ResponseEntity<Map<String, PersonDataDTO>> getPersonData(@RequestHeader("authorization") String authorization) {
-        String token = authorization.substring(7);
-        log.info("get: /get_person_data, token = " + token);
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Person person = ((PersonDetails) authentication.getPrincipal()).getPerson();
+    public ResponseEntity<Map<String, PersonDataDTO>> getPersonData() {
+        Person person = SecurityUtil.getPerson();
 
         return ResponseEntity.status(HttpStatus.OK).body(Map.of("person_data", modelMapperUtil.convertToPersonDataDTO(person)));
     }

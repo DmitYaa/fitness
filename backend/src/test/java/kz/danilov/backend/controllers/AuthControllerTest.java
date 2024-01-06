@@ -21,8 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -172,6 +171,34 @@ public class AuthControllerTest {
                 .replace("}", "");
 
         assertTrue(result.equalsIgnoreCase("true"));
+    }
+
+    @Test
+    public void getCheckTokenThenGetIt() throws Exception {
+        String token = mockMvc.perform(get("/auth/check_token")
+                        .header("Authorization", "Bearer " + userToken)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("jwt").isNotEmpty())
+                .andReturn()
+                .getResponse()
+                .getContentAsString()
+                .replace("{\"jwt\":\"", "")
+                .replace("\"}", "");
+
+        assertEquals(token, userToken);
+    }
+
+    @Test
+    public void getPersonDataThenCheckIt() throws Exception {
+        String data = mockMvc.perform(get("/auth/get_person_data")
+                        .header("Authorization", "Bearer " + userToken)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("person_data").isNotEmpty())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertTrue(data.contains(personUser.getName()));
     }
 
     @AfterAll
