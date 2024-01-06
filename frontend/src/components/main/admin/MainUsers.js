@@ -26,7 +26,7 @@ class MainUsers extends React.Component {
         const token = localStorage.getItem("jwt")
 
         if (searchString !== undefined && searchString !== null && searchString !== "undefined") {
-            axios.post(url + "/search_people", searchString, {
+            axios.get(url + "/search_people", searchString, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token

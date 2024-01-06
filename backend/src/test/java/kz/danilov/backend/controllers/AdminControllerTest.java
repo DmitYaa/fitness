@@ -2,6 +2,7 @@ package kz.danilov.backend.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kz.danilov.backend.Utils;
+import kz.danilov.backend.dto.SearchDTO;
 import kz.danilov.backend.models.Person;
 import kz.danilov.backend.security.JWTUtil;
 import kz.danilov.backend.services.PeopleService;
@@ -12,7 +13,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -65,15 +65,18 @@ public class AdminControllerTest {
 
     @Test
     void getPerson() throws Exception {
-        getPersonThenCheckHis();
+        getPersonWithIdThenCheckHis(peopleService.findAll().get(0));
+        getNonExistentPerson();
     }
 
     @Test
-    void getAllPeople() {
+    void getPeople() throws Exception {
+        getPeopleThenCheckIt(peopleService.findAll().get(0));
     }
 
     @Test
-    void getSearchPeople() {
+    void getSearchPeople() throws Exception {
+        getPeopleThenCheckContains(peopleService.findAll().get(0));
     }
 
     @Test
@@ -84,16 +87,44 @@ public class AdminControllerTest {
     void setNewPersonData() {
     }
 
-    private void getPersonThenCheckHis() throws Exception {
-        String data = mockMvc.perform(get("/auth/get_person_data")
-                        .header("Authorization", "Bearer " + adminToken)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("person_data").isNotEmpty())
+    private void getPersonWithIdThenCheckHis(Person person) throws Exception {
+        String data = Utils.getResultActionsWithTokenButWithoutBody(mockMvc, "/admin/person/" + person.getId(), adminToken)
+                .andExpect(jsonPath("name").isNotEmpty())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
 
-        System.out.println(data);
-        assertTrue(data.contains(personAdmin.getName()));
+        assertTrue(data.contains(person.getName()) && data.contains(person.getRole()));
+    }
+
+    private void getNonExistentPerson() throws Exception {
+        String data = Utils.getResultActionsWithTokenButWithoutBody(mockMvc, "/admin/person/" + Integer.MAX_VALUE, adminToken)
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertTrue(data.contains("\"message\":\"Person with this id wasn't found!\""));
+    }
+
+    private void getPeopleThenCheckIt(Person person) throws Exception {
+        String data = Utils.getResultActionsWithTokenButWithoutBody(mockMvc, "/admin/people", adminToken)
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertTrue(data.contains(person.getName()) && data.contains(person.getRole()));
+    }
+
+    private void getPeopleThenCheckContains(Person person) throws Exception {
+        SearchDTO searchDTO = new SearchDTO();
+        searchDTO.setSearchString(person.getName().substring(1));
+        String data = Utils.getResultActionsWithTokenAndBody(mockMvc,
+                "/admin/search_people",
+                adminToken, objectMapper, searchDTO)
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertTrue(data.contains(person.getName()));
     }
 }

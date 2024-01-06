@@ -60,10 +60,10 @@ public class ExerciseController {
         return ResponseEntity.status(HttpStatus.OK).body(modelMapperUtil.convertToListOfExerciseDTO(exercises));
     }
 
-    @GetMapping("/get_image/{id}")
+    @GetMapping("/image/{id}")
     public ResponseEntity<?> getImage(@PathVariable("id") int id) throws IOException {
         Person person = SecurityUtil.getPerson();
-        log.info("GET: /trainer/get_image/" + id +   "  personId = " + person.getId());
+        log.info("GET: /trainer/image/" + id +   "  personId = " + person.getId());
 
         Exercise exercise = exercisesService.findById(id);
         Trainer trainer = trainersService.findByPersonId(person.getId());
@@ -79,10 +79,10 @@ public class ExerciseController {
                     .status(HttpStatus.NOT_FOUND).body("exercise not fund");
     }
 
-    @GetMapping("/get_video/{id}")
+    @GetMapping("/video/{id}")
     public ResponseEntity<FileSystemResource> getFullVideo(@PathVariable("id") int id) {
         Person person = SecurityUtil.getPerson();
-        log.info("GET: /trainer/get_video/" + id +   "  personId = " + person.getId());
+        log.info("GET: /trainer/video/" + id +   "  personId = " + person.getId());
 
         Exercise exercise = exercisesService.findById(id);
         Trainer trainer = trainersService.findByPersonId(person.getId());
@@ -139,6 +139,8 @@ public class ExerciseController {
             Exercise exercise = exercisesService.findById(id);
             exercise.setImage(file.getPath());
             exercisesService.saveExercise(exercise);
+
+            //TODO удаление старого изображения
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -159,6 +161,8 @@ public class ExerciseController {
             Exercise exercise = exercisesService.findById(id);
             exercise.setVideo(file.getPath());
             exercisesService.saveExercise(exercise);
+
+            //TODO удаление старого видео
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

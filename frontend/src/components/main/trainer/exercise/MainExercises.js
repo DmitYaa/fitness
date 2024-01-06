@@ -48,7 +48,7 @@ class MainExercises extends React.Component {
     getImage(id) {
         const token = localStorage.getItem("jwt")
             if (token !== undefined && token !== null && token !== "undefined") {
-                axios.get(url + "/get_image/" + id, {
+                axios.get(url + "/image/" + id, {
                     headers: {
                         'Authorization': 'Bearer ' + token
                     }, responseType: "arraybuffer"
@@ -72,7 +72,7 @@ class MainExercises extends React.Component {
     getVideo(id) {
         const token = localStorage.getItem("jwt")
         if (token !== undefined && token !== null && token !== "undefined") {
-            axios.get(url + "/get_video/" + id, {
+            axios.get(url + "/video/" + id, {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }, responseType: "arraybuffer"

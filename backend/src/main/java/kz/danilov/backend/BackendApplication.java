@@ -31,9 +31,9 @@ public class BackendApplication {
                         ("Bearer Authentication", new SecurityScheme().type(SecurityScheme.Type.HTTP)
                                 .bearerFormat("jwt")
                                 .scheme("bearer")))
-                .info(new Info().title("Fitness REST API")
-                        .description("Описание всего API приложения.")
+                .info(new Info().title("Fitness API")
                         .version("1.0")
+                        .description("Описание всего API приложения.")
                         .contact(new Contact().name("Данилов Николай").email("89162450327@ya.ru")));
     }
 }

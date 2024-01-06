@@ -1,7 +1,14 @@
 package kz.danilov.backend;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kz.danilov.backend.dto.PersonDTO;
 import kz.danilov.backend.models.Person;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**
  * User: Nikolai Danilov
@@ -32,6 +39,24 @@ public class Utils {
     );
 
 
+    public static ResultActions getResultActionsWithTokenButWithoutBody(MockMvc mockMvc, String url, String token) throws Exception {
+        return mockMvc.perform(get(url)
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON));
+    }
+
+    public static ResultActions getResultActionsWithTokenAndBody(MockMvc mockMvc, String url, String token, ObjectMapper objectMapper, Object object) throws Exception {
+        return mockMvc.perform(get(url)
+                .header("Authorization", "Bearer " + token)
+                .content(objectMapper.writeValueAsString(object))
+                .contentType(MediaType.APPLICATION_JSON));
+    }
+
+    public static ResultActions postResultActionsWithoutTokenButWithBody(MockMvc mockMvc, String url, ObjectMapper objectMapper, Object object) throws Exception {
+        return mockMvc.perform(post(url)
+                .content(objectMapper.writeValueAsString(object))
+                .contentType(MediaType.APPLICATION_JSON));
+    }
 
     public static PersonDTO createTestUserPersonDTO() {
         PersonDTO personDTO = new PersonDTO();
