@@ -33,7 +33,6 @@ public class TrainersService {
     public Trainer saveNewTrainer(int personId) {
         Trainer trainer = new Trainer();
         trainer.setPersonId(personId);
-        System.out.println(trainer.getPersonId());
         return trainersRepository.save(trainer);
     }
 

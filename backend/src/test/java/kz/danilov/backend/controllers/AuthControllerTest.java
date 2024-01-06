@@ -1,7 +1,7 @@
 package kz.danilov.backend.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kz.danilov.backend.Util;
+import kz.danilov.backend.Utils;
 import kz.danilov.backend.dto.PersonDTO;
 import kz.danilov.backend.models.Person;
 import kz.danilov.backend.models.trainers.Trainer;
@@ -67,37 +67,66 @@ public class AuthControllerTest {
 
     @BeforeAll
     public void initialize() {
-        personAdmin = peopleService.save(new Person(
-                0,
-                "admin",
-                "$2a$10$NzE3.ehopU.LN6eqFby/nOtDNHq/x7XPjmxPqDoRKY2DDEqRlJl56", //admin
-                "ROLE_ADMIN"));
+        resetDb();
+        personAdmin = peopleService.save(Utils.personAdmin);
         adminToken = jwtUtil.generateToken(personAdmin.getName());
-        personTrainer = peopleService.save(new Person(
-                0,
-                "trainer",
-                "$2a$10$ziRMsJUXmUgTLSPenkWY4udkty4NOGmWuw/dyqjhZF3ky0mAAZsDK", //trainer
-                "ROLE_TRAINER"));
+        personTrainer = peopleService.save(Utils.personTrainer);
         trainerToken = jwtUtil.generateToken(personTrainer.getName());
         trainerService.saveNewTrainer(personTrainer.getId());
-        personUser = peopleService.save(new Person(
-                0,
-                "user",
-                "$2a$10$DVx9f1djz1PI/SK3J4uhseGbaGu0XuDZIJD/p8Zwthix.DvyXFtvm", //user
-                "ROLE_USER"));
+        personUser = peopleService.save(Utils.personUser);
         userToken = jwtUtil.generateToken(personUser.getName());
-        personPremium = peopleService.save(new Person(
-                0,
-                "premium",
-                "$2a$10$2eAE6E/J1HXSw1EiQAukYeyxRdnzU73sbzbV1QvK.gNMdYwi43g.S", //premium
-                "ROLE_PREMIUM"));
+        personPremium = peopleService.save(Utils.personPremium);
         premiumToken = jwtUtil.generateToken(personPremium.getName());
     }
 
+    @AfterAll
+    public void after() {
+        resetDb();
+    }
+
+    private void resetDb() {
+        trainerService.deleteAll();
+        peopleService.deleteAll();
+    }
+
     @Test
-    public void postRegistrationUserThenGetJWTTokenAndValidateIt() throws Exception {
+    void performRegistrationUser() throws Exception {
+        postRegistrationUserThenGetJWTTokenAndValidateIt();
+        postRegistrationUserThenGetExceptionAboutUnique();
+    }
+
+    @Test
+    void performRegistrationTrainer() throws Exception {
+        postRegistrationTrainerThenGetJWTTokenAndValidateIt();
+        postRegistrationTrainerThenGetExceptionAboutUnique();
+    }
+
+    @Test
+    void performLogin() throws Exception {
+        postLoginThenGetJWTTokenAndValidateIt();
+        postLoginThenGetIncorrectCredentials();
+    }
+
+    @Test
+    void check() throws Exception {
+        getCheckThenGetBooleanTrue();
+        getCheckThenGetBooleanFalse();
+    }
+
+    @Test
+    void checkToken() throws Exception {
+        getCheckTokenThenGetIt(userToken);
+        //getCheckTokenThenGetIt(Utils.getOldToken()); TODO нужно доделать логику проверки токенов
+    }
+
+    @Test
+    void getPersonData() throws Exception {
+        getPersonDataThenCheckIt();
+    }
+
+    private void postRegistrationUserThenGetJWTTokenAndValidateIt() throws Exception {
         String userToken = mockMvc.perform(post("/auth/registration/user")
-                        .content(objectMapper.writeValueAsString(Util.createTestUserPersonDTO()))
+                        .content(objectMapper.writeValueAsString(Utils.createTestUserPersonDTO()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("jwt").isNotEmpty())
                 .andReturn()
@@ -109,9 +138,20 @@ public class AuthControllerTest {
         assertTrue(jwtUtil.checkToken(userToken));
     }
 
-    @Test
-    public void postRegistrationTrainerThenGetJWTTokenAndValidateIt() throws Exception {
-        PersonDTO personDTO = Util.createTestTrainerPersonDTO();
+    private void postRegistrationUserThenGetExceptionAboutUnique() throws Exception {
+        String result = mockMvc.perform(post("/auth/registration/user")
+                        .content(objectMapper.writeValueAsString(Utils.createTestUserPersonDTO()))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("message").isNotEmpty())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertEquals(result, "{\"message\":\"error\"}");
+    }
+
+    private void postRegistrationTrainerThenGetJWTTokenAndValidateIt() throws Exception {
+        PersonDTO personDTO = Utils.createTestTrainerPersonDTO();
 
         String  trainerToken = mockMvc.perform(post("/auth/registration/trainer")
                         .content(objectMapper.writeValueAsString(personDTO))
@@ -143,8 +183,19 @@ public class AuthControllerTest {
         assertNotNull(t);
     }
 
-    @Test
-    public void postLoginThenGetJWTTokenAndValidateIt() throws Exception {
+    private void postRegistrationTrainerThenGetExceptionAboutUnique() throws Exception {
+        String  result = mockMvc.perform(post("/auth/registration/trainer")
+                        .content(objectMapper.writeValueAsString(Utils.createTestTrainerPersonDTO()))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("message").isNotEmpty())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertEquals(result, "{\"message\":\"error\"}");
+    }
+
+    private void postLoginThenGetJWTTokenAndValidateIt() throws Exception {
         String userToken = mockMvc.perform(post("/auth/login")
                         .content(objectMapper.writeValueAsString(new PersonDTO("user", "user")))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -158,8 +209,19 @@ public class AuthControllerTest {
         assertTrue(jwtUtil.checkToken(userToken));
     }
 
-    @Test
-    public void getCheckThenGetBooleanTrue() throws Exception {
+    private void postLoginThenGetIncorrectCredentials() throws Exception {
+        String result = mockMvc.perform(post("/auth/login")
+                        .content(objectMapper.writeValueAsString(new PersonDTO("user", "trainer")))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("message").isNotEmpty())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertEquals(result, "{\"message\":\"Incorrect credentials!\"}");
+    }
+
+    private void getCheckThenGetBooleanTrue() throws Exception {
         String result = mockMvc.perform(get("/auth/check")
                         .header("Authorization", "Bearer " + userToken)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -173,10 +235,24 @@ public class AuthControllerTest {
         assertTrue(result.equalsIgnoreCase("true"));
     }
 
-    @Test
-    public void getCheckTokenThenGetIt() throws Exception {
-        String token = mockMvc.perform(get("/auth/check_token")
-                        .header("Authorization", "Bearer " + userToken)
+    private void getCheckThenGetBooleanFalse() throws Exception {
+        String result = mockMvc.perform(get("/auth/check")
+                        .header("Authorization", "Bearer " + Utils.getOldToken())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("is_jwt_actual").isNotEmpty())
+                .andReturn()
+                .getResponse()
+                .getContentAsString()
+                .replace("{\"is_jwt_actual\":", "")
+                .replace("}", "");
+
+        assertTrue(result.equalsIgnoreCase("false"));
+    }
+
+
+    private void getCheckTokenThenGetIt(String token) throws Exception {
+        String newToken = mockMvc.perform(get("/auth/check_token")
+                        .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("jwt").isNotEmpty())
                 .andReturn()
@@ -185,11 +261,10 @@ public class AuthControllerTest {
                 .replace("{\"jwt\":\"", "")
                 .replace("\"}", "");
 
-        assertEquals(token, userToken);
+        assertEquals(newToken, token);
     }
 
-    @Test
-    public void getPersonDataThenCheckIt() throws Exception {
+    private void getPersonDataThenCheckIt() throws Exception {
         String data = mockMvc.perform(get("/auth/get_person_data")
                         .header("Authorization", "Bearer " + userToken)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -199,11 +274,5 @@ public class AuthControllerTest {
                 .getContentAsString();
 
         assertTrue(data.contains(personUser.getName()));
-    }
-
-    @AfterAll
-    public void resetDb() {
-        trainerService.deleteAll();
-        peopleService.deleteAll();
     }
 }

@@ -1,47 +1,29 @@
 package kz.danilov.backend.controllers;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import kz.danilov.backend.BackendApplication;
 import kz.danilov.backend.dto.AuthenticationDTO;
-import kz.danilov.backend.dto.JwtDTO;
 import kz.danilov.backend.dto.PersonDTO;
 import kz.danilov.backend.dto.PersonDataDTO;
 import kz.danilov.backend.models.Person;
 import kz.danilov.backend.models.trainers.Trainer;
 import kz.danilov.backend.security.JWTUtil;
-import kz.danilov.backend.security.PersonDetails;
 import kz.danilov.backend.security.SecurityUtil;
 import kz.danilov.backend.services.RegistrationService;
 import kz.danilov.backend.services.trainers.TrainersService;
-import kz.danilov.backend.util.ErrorResponse;
 import kz.danilov.backend.util.ModelMapperUtil;
 import kz.danilov.backend.util.validators.PersonValidator;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.MediaTypeFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.util.Enumeration;
 import java.util.Map;
 
 @RestController
@@ -95,8 +77,9 @@ public class AuthController {
 
         personValidator.validate(person, bindingResult);
 
-        if (bindingResult.hasErrors())
+        if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("message", "error"));
+        }
 
         registrationService.registerTrainer(person);
 
