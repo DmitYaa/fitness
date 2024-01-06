@@ -31,7 +31,7 @@ import java.util.List;
  * User: Nikolai Danilov
  * Date: 04.01.2024
  */
-@Controller
+@RestController
 @RequestMapping("/trainer/exercise")
 public class ExerciseController {
     private static final Logger log = LoggerFactory.getLogger(BackendApplication.class);

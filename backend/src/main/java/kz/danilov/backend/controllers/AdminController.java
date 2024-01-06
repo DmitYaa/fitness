@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/admin")
 public class AdminController {
     private static final Logger log = LoggerFactory.getLogger(BackendApplication.class);
