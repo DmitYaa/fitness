@@ -142,15 +142,5 @@ public class AdminControllerTest {
                 .andExpect(status().is(202));
         Person newPerson = peopleService.findById(person.getId());
         assertEquals(newPerson.getName(), personDataDTO.getName());
-
-        personDataDTO.setName(person.getName());
-        Utils.putResultActionsWithTokenAndBody(mockMvc,
-                        "/admin/set_new_person_data",
-                        adminToken,
-                        objectMapper,
-                        personDataDTO)
-                .andExpect(status().is(202));
-        newPerson = peopleService.findById(person.getId());
-        assertEquals(newPerson.getName(), personDataDTO.getName());
     }
 }

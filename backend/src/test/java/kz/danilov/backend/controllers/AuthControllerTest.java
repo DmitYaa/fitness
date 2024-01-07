@@ -8,7 +8,6 @@ import kz.danilov.backend.models.trainers.Trainer;
 import kz.danilov.backend.security.JWTUtil;
 import kz.danilov.backend.services.PeopleService;
 import kz.danilov.backend.services.trainers.TrainersService;
-import kz.danilov.backend.util.ModelMapperUtil;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -36,19 +35,19 @@ public class AuthControllerTest {
     private final ObjectMapper objectMapper;
     private final MockMvc mockMvc;
     private final PeopleService peopleService;
-    private final TrainersService trainerService;
+    private final TrainersService trainersService;
     private final JWTUtil jwtUtil;
 
     @Autowired
     public AuthControllerTest(ObjectMapper objectMapper,
                               MockMvc mockMvc,
                               PeopleService peopleService,
-                              TrainersService trainerService,
+                              TrainersService trainersService,
                               JWTUtil jwtUtil) {
         this.objectMapper = objectMapper;
         this.mockMvc = mockMvc;
         this.peopleService = peopleService;
-        this.trainerService = trainerService;
+        this.trainersService = trainersService;
         this.jwtUtil = jwtUtil;
     }
 
@@ -68,7 +67,7 @@ public class AuthControllerTest {
         adminToken = jwtUtil.generateToken(personAdmin.getName());
         personTrainer = peopleService.save(Utils.personTrainer);
         trainerToken = jwtUtil.generateToken(personTrainer.getName());
-        trainerService.saveNewTrainer(personTrainer.getId());
+        trainersService.saveNewTrainer(personTrainer.getId());
         personUser = peopleService.save(Utils.personUser);
         userToken = jwtUtil.generateToken(personUser.getName());
         personPremium = peopleService.save(Utils.personPremium);
@@ -81,7 +80,7 @@ public class AuthControllerTest {
     }
 
     private void resetDb() {
-        trainerService.deleteAll();
+        trainersService.deleteAll();
         peopleService.deleteAll();
     }
 
@@ -181,7 +180,7 @@ public class AuthControllerTest {
         }
         assertTrue(result);
 
-        Trainer t = trainerService.findByPersonId(personId);
+        Trainer t = trainersService.findByPersonId(personId);
         assertNotNull(t);
     }
 
