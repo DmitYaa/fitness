@@ -38,21 +38,18 @@ public class AuthControllerTest {
     private final PeopleService peopleService;
     private final TrainersService trainerService;
     private final JWTUtil jwtUtil;
-    private final ModelMapperUtil modelMapperUtil;
 
     @Autowired
     public AuthControllerTest(ObjectMapper objectMapper,
                               MockMvc mockMvc,
                               PeopleService peopleService,
                               TrainersService trainerService,
-                              JWTUtil jwtUtil,
-                              ModelMapperUtil modelMapperUtil) {
+                              JWTUtil jwtUtil) {
         this.objectMapper = objectMapper;
         this.mockMvc = mockMvc;
         this.peopleService = peopleService;
         this.trainerService = trainerService;
         this.jwtUtil = jwtUtil;
-        this.modelMapperUtil = modelMapperUtil;
     }
 
     private Person personAdmin = null;

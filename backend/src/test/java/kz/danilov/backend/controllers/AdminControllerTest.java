@@ -2,10 +2,12 @@ package kz.danilov.backend.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kz.danilov.backend.Utils;
+import kz.danilov.backend.dto.PersonDataDTO;
 import kz.danilov.backend.dto.SearchDTO;
 import kz.danilov.backend.models.Person;
 import kz.danilov.backend.security.JWTUtil;
 import kz.danilov.backend.services.PeopleService;
+import kz.danilov.backend.util.ModelMapperUtil;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,10 +17,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * User: Nikolai Danilov
@@ -32,16 +34,19 @@ public class AdminControllerTest {
     private final MockMvc mockMvc;
     private final PeopleService peopleService;
     private final JWTUtil jwtUtil;
+    private final ModelMapperUtil modelMapperUtil;
 
     @Autowired
     public AdminControllerTest(ObjectMapper objectMapper,
                                MockMvc mockMvc,
                                PeopleService peopleService,
-                               JWTUtil jwtUtil) {
+                               JWTUtil jwtUtil,
+                               ModelMapperUtil modelMapperUtil) {
         this.objectMapper = objectMapper;
         this.mockMvc = mockMvc;
         this.peopleService = peopleService;
         this.jwtUtil = jwtUtil;
+        this.modelMapperUtil = modelMapperUtil;
     }
 
     private Person personAdmin = null;
@@ -76,15 +81,13 @@ public class AdminControllerTest {
 
     @Test
     void getSearchPeople() throws Exception {
-        getPeopleThenCheckContains(peopleService.findAll().get(0));
+        getSearchPeopleThenCheckContains(peopleService.findAll().get(0));
     }
 
     @Test
-    void getPeopleSize() {
-    }
-
-    @Test
-    void setNewPersonData() {
+    void setNewPersonData() throws Exception {
+        Person person = peopleService.save(Utils.personUser);
+        putNewPersonDataThenCheckIt(person);
     }
 
     private void getPersonWithIdThenCheckHis(Person person) throws Exception {
@@ -115,7 +118,7 @@ public class AdminControllerTest {
         assertTrue(data.contains(person.getName()) && data.contains(person.getRole()));
     }
 
-    private void getPeopleThenCheckContains(Person person) throws Exception {
+    private void getSearchPeopleThenCheckContains(Person person) throws Exception {
         SearchDTO searchDTO = new SearchDTO();
         searchDTO.setSearchString(person.getName().substring(1));
         String data = Utils.getResultActionsWithTokenAndBody(mockMvc,
@@ -126,5 +129,28 @@ public class AdminControllerTest {
                 .getContentAsString();
 
         assertTrue(data.contains(person.getName()));
+    }
+
+    private void putNewPersonDataThenCheckIt(Person person) throws Exception {
+        PersonDataDTO personDataDTO = modelMapperUtil.convertToPersonDataDTO(person);
+        personDataDTO.setName("newName");
+        Utils.putResultActionsWithTokenAndBody(mockMvc,
+                        "/admin/set_new_person_data",
+                        adminToken,
+                        objectMapper,
+                        personDataDTO)
+                .andExpect(status().is(202));
+        Person newPerson = peopleService.findById(person.getId());
+        assertEquals(newPerson.getName(), personDataDTO.getName());
+
+        personDataDTO.setName(person.getName());
+        Utils.putResultActionsWithTokenAndBody(mockMvc,
+                        "/admin/set_new_person_data",
+                        adminToken,
+                        objectMapper,
+                        personDataDTO)
+                .andExpect(status().is(202));
+        newPerson = peopleService.findById(person.getId());
+        assertEquals(newPerson.getName(), personDataDTO.getName());
     }
 }

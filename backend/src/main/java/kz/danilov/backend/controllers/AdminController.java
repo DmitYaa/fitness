@@ -57,15 +57,6 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK).body(modelMapperUtil.convertToPersonDataDTOList(people));
     }
 
-    @GetMapping("/people_size")
-    public ResponseEntity<Integer> getPeopleSize() {
-        log.info("GET: /admin/people_size");
-
-        List<Person> people = peopleService.findAll();
-
-        return ResponseEntity.status(HttpStatus.OK).body(people.size());
-    }
-
     @PutMapping("/set_new_person_data")
     public ResponseEntity<HttpStatus> setNewPersonData(@RequestBody PersonDataDTO personDataDTO) {
         log.info("PUT: /admin/set_new_data, id = " + personDataDTO.getId());
