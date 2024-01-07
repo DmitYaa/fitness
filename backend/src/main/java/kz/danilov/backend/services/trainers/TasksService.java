@@ -1,5 +1,6 @@
 package kz.danilov.backend.services.trainers;
 
+import kz.danilov.backend.models.trainers.Task;
 import kz.danilov.backend.repositories.trainers.TasksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,5 +19,15 @@ public class TasksService {
     @Autowired
     public TasksService(TasksRepository tasksRepository) {
         this.tasksRepository = tasksRepository;
+    }
+
+    @Transactional
+    public Task save(Task task) {
+        return tasksRepository.save(task);
+    }
+
+    @Transactional
+    public void deleteAll() {
+        tasksRepository.deleteAll();
     }
 }

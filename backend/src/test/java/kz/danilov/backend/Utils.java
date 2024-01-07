@@ -3,9 +3,17 @@ package kz.danilov.backend;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kz.danilov.backend.dto.PersonDTO;
 import kz.danilov.backend.models.Person;
+import kz.danilov.backend.models.trainers.Exercise;
+import kz.danilov.backend.models.trainers.Task;
+import kz.danilov.backend.models.trainers.Trainer;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
@@ -37,6 +45,47 @@ public class Utils {
             "ROLE_PREMIUM"
     );
 
+    public static List<Exercise> getExercises() {
+        return Arrays.asList(
+                new Exercise(0, "прес от пола", "прес", "Классическоеупражнение на мышцы преса", "D:\\Project\\db\\pressVideo.MOV", "D:\\Project\\db\\press.jpg", null, null),
+                new Exercise(0, "классическое приседание", "квадрицепсы", "основа, которой нужно овладеть перед тем, как приступать к другим разновидностям этого приседаний", "D:\\Project\\db\\squatVideo.MOV", "D:\\Project\\db\\hands.jpg", null, null),
+                new Exercise(0, "классическое отжимание", "большая грудная", "Примите упор лежа на руках и ногах. Ноги должны быть вместе, а ваши ладони направьте вперед, так чтобы они были на ширине плеч. Затем необходимо выпрямить руки, при этом важно чтобы шея, спина и ноги были прямыми. Сгибайте руки в локтях, опускаясь к полу.", "D:\\Project\\db\\push-upsVideo.MOV", "D:\\Project\\db\\hands.jpg", null, null)
+        );
+    }
+
+    public static List<Exercise> getExercises(Trainer trainer) {
+        List<Exercise> exercises = getExercises();
+        exercises.forEach((e) -> e.setTrainer(trainer));
+        return exercises;
+    }
+
+    public static List<Task> getTasks() {
+        return Arrays.asList(
+                new Task(0, "пресс новичка", "зачем нужно это поле?", null, 10, (byte) 0, null, null),
+                new Task(0, "пресс продвинутого", "зачем нужно это поле?", null, 20, (byte) 0, null, null),
+                new Task(0, "пресс профи", "зачем нужно это поле?", null, 30, (byte) 0, null, null),
+
+                new Task(0, "приседание новичка", "зачем нужно это поле?", null, 20, (byte) 0, null, null),
+                new Task(0, "приседание продвинутого", "зачем нужно это поле?", null, 50, (byte) 0, null, null),
+                new Task(0, "приседание профи", "зачем нужно это поле?", null, 100, (byte) 0, null, null),
+
+                new Task(0, "отжимание новичка", "зачем нужно это поле?", null, 10, (byte) 0, null, null),
+                new Task(0, "отжимание супер новичка", "зачем нужно это поле?", null, 15, (byte) 0, null, null),
+                new Task(0, "отжимание продвинутого", "зачем нужно это поле?", null, 20, (byte) 0, null, null),
+                new Task(0, "отжимание супер продвинутого", "зачем нужно это поле?", null, 30, (byte) 0, null, null),
+                new Task(0, "отжимание профи", "зачем нужно это поле?", null, 40, (byte) 0, null, null),
+                new Task(0, "отжимание супер профи", "зачем нужно это поле?", null, 50, (byte) 0, null, null),
+
+                new Task(0, "тест", "для теста типа", null, 60, (byte) 1, null, null),
+                new Task(0, "тест", "для теста типа", null, 2, (byte) 2, null, null)
+        );
+    }
+
+    public static List<Task> getTasks(Trainer trainer) {
+        List<Task> tasks = getTasks();
+        tasks.forEach((e) -> e.setTrainer(trainer));
+        return tasks;
+    }
 
     public static ResultActions getResultActionsWithTokenButWithoutBody(MockMvc mockMvc, String url, String token) throws Exception {
         return mockMvc.perform(get(url)

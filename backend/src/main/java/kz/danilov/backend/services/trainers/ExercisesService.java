@@ -38,7 +38,7 @@ public class ExercisesService {
     }
 
     @Transactional
-    public Exercise saveExercise(Exercise exercise) {
+    public Exercise save(Exercise exercise) {
         return exercisesRepository.save(exercise);
     }
 }

@@ -18,7 +18,6 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -121,7 +120,7 @@ public class ExerciseController {
         exercise.setMuscle(exerciseDTO.getMuscle());
         exercise.setDescription(exerciseDTO.getDescription());
 
-        exercisesService.saveExercise(exercise);
+        exercisesService.save(exercise);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -138,7 +137,7 @@ public class ExerciseController {
 
             Exercise exercise = exercisesService.findById(id);
             exercise.setImage(file.getPath());
-            exercisesService.saveExercise(exercise);
+            exercisesService.save(exercise);
 
             //TODO удаление старого изображения
         } catch (Exception e) {
@@ -160,7 +159,7 @@ public class ExerciseController {
 
             Exercise exercise = exercisesService.findById(id);
             exercise.setVideo(file.getPath());
-            exercisesService.saveExercise(exercise);
+            exercisesService.save(exercise);
 
             //TODO удаление старого видео
         } catch (Exception e) {
