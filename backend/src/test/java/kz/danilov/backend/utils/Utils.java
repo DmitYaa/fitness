@@ -1,15 +1,24 @@
-package kz.danilov.backend;
+package kz.danilov.backend.utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kz.danilov.backend.dto.PersonDTO;
+import kz.danilov.backend.dto.trainers.ExerciseDTO;
+import kz.danilov.backend.dto.trainers.NewExerciseDTO;
 import kz.danilov.backend.models.Person;
 import kz.danilov.backend.models.trainers.Exercise;
 import kz.danilov.backend.models.trainers.Task;
 import kz.danilov.backend.models.trainers.Trainer;
+import kz.danilov.backend.util.ModelMapperUtil;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -107,6 +116,14 @@ public class Utils {
                 .contentType(MediaType.APPLICATION_JSON));
     }
 
+
+    public static ResultActions postResultActionsWithTokenAndBody(MockMvc mockMvc, String url, String token, ObjectMapper objectMapper, Object object) throws Exception {
+        return mockMvc.perform(post(url)
+                .header("Authorization", "Bearer " + token)
+                .content(objectMapper.writeValueAsString(object))
+                .contentType(MediaType.APPLICATION_JSON));
+    }
+
     public static ResultActions postResultActionsWithoutTokenButWithBody(MockMvc mockMvc, String url, ObjectMapper objectMapper, Object object) throws Exception {
         return mockMvc.perform(post(url)
                 .content(objectMapper.writeValueAsString(object))
@@ -129,7 +146,29 @@ public class Utils {
         return personDTO;
     }
 
+    public static NewExerciseDTO createTestNewExerciseDTO() {
+        return new NewExerciseDTO("Упражнение", "какие-то", "все для теста и только для теста");
+    }
+
+    public static ExerciseDTO createTestExerciseDTO() {
+        return new ExerciseDTO(0, "Упражнение", "какие-то", "все для теста и только для теста");
+    }
+
+    public static ExerciseDTO createTestEditExerciseDTO(Exercise exercise, ModelMapperUtil modelMapperUtil) {
+        ExerciseDTO exerciseDTO =modelMapperUtil.convertToExerciseDTO(exercise);
+        exerciseDTO.setDescription("тест успешный!!!");
+        return exerciseDTO;
+    }
+
     public static String getOldToken() {
         return "eyJ0eXAiOiJKV1QiLCJhbGciOSiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIGRldGFpbHMiLCJpc3MiOiJmaXRuZXNzIiwiZXhwIjoxNjk2MTY0MDg5LCJpYXQiOjE2OTYxNjIyODksInVzZXJuYW1lIjoidGVzdCJ9.NRQcNhk7HqN71nqfR2Icv3f3nTbylXVBj2fixCY7608";
+    }
+
+    public static byte[] loadBuffer(String path) throws IOException {
+        BufferedInputStream bis = new BufferedInputStream(new FileInputStream(path));
+        byte[] buffer = new byte[bis.available()];
+        bis.read(buffer);
+        bis.close();
+        return buffer;
     }
 }

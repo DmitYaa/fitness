@@ -46,8 +46,10 @@ class NewExercise extends React.Component {
                         "image",
                         this.state.image
                     )
+
+                    console.log(res.data)
     
-                    axios.put(url + "/image/" + res.data, formData, {
+                    axios.put(url + "/image/" + res.data.id, formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data',
                             'Authorization': 'Bearer ' + token
@@ -66,7 +68,7 @@ class NewExercise extends React.Component {
                         this.state.video
                     )
     
-                    axios.put(url + "/video/" + res.data, formData, {
+                    axios.put(url + "/video/" + res.data.id, formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data',
                             'Authorization': 'Bearer ' + token

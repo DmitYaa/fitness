@@ -59,6 +59,10 @@ public class ModelMapperUtil {
         return this.modelMapper.map(newExerciseDTO, Exercise.class);
     }
 
+    public ExerciseDTO convertToExerciseDTO(Exercise exercise) {
+        return this.modelMapper.map(exercise, ExerciseDTO.class);
+    }
+
     public List<TaskDTO> convertToListOfTaskDTO(List<Task> tasks) {
         List<TaskDTO> tasksDTOList = new ArrayList<>(tasks.size());
         for (Task task : tasks) {

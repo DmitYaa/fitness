@@ -1,7 +1,7 @@
 package kz.danilov.backend.controllers.trainer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kz.danilov.backend.Utils;
+import kz.danilov.backend.utils.Utils;
 import kz.danilov.backend.models.Person;
 import kz.danilov.backend.models.trainers.Exercise;
 import kz.danilov.backend.models.trainers.Task;
@@ -94,6 +94,7 @@ public class TaskControllerTest {
         trainersService.deleteAll();
         peopleService.deleteAll();
         tasksService.deleteAll();
+        exercisesService.deleteAll();
     }
 
     @Test

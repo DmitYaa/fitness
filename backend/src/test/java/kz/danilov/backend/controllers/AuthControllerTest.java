@@ -1,7 +1,7 @@
 package kz.danilov.backend.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kz.danilov.backend.Utils;
+import kz.danilov.backend.utils.Utils;
 import kz.danilov.backend.dto.PersonDTO;
 import kz.danilov.backend.models.Person;
 import kz.danilov.backend.models.trainers.Trainer;

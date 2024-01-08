@@ -32,13 +32,12 @@ public class ExercisesService {
     }
 
     @Transactional
-    public int saveNewExercise(Exercise exercise) {
-        Exercise newExercise = exercisesRepository.save(exercise);
-        return newExercise.getId();
+    public Exercise save(Exercise exercise) {
+        return exercisesRepository.save(exercise);
     }
 
     @Transactional
-    public Exercise save(Exercise exercise) {
-        return exercisesRepository.save(exercise);
+    public void deleteAll() {
+        exercisesRepository.deleteAll();
     }
 }

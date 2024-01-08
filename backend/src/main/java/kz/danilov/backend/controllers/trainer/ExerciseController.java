@@ -51,7 +51,7 @@ public class ExerciseController {
     @GetMapping("/all")
     public ResponseEntity<List<ExerciseDTO>> getAllExercises() {
         Person person = SecurityUtil.getPerson();
-        log.info("GET: /trainer/exercises  personId = " + person.getId());
+        log.info("GET: /trainer/exercise/all  personId = " + person.getId());
 
         Trainer trainer = trainersService.findByPersonId(person.getId());
         List<Exercise> exercises = trainer.getExercises();
@@ -62,7 +62,7 @@ public class ExerciseController {
     @GetMapping("/image/{id}")
     public ResponseEntity<?> getImage(@PathVariable("id") int id) throws IOException {
         Person person = SecurityUtil.getPerson();
-        log.info("GET: /trainer/image/" + id +   "  personId = " + person.getId());
+        log.info("GET: /trainer/exercise/image/" + id +   "  personId = " + person.getId());
 
         Exercise exercise = exercisesService.findById(id);
         Trainer trainer = trainersService.findByPersonId(person.getId());
@@ -81,7 +81,7 @@ public class ExerciseController {
     @GetMapping("/video/{id}")
     public ResponseEntity<FileSystemResource> getFullVideo(@PathVariable("id") int id) {
         Person person = SecurityUtil.getPerson();
-        log.info("GET: /trainer/video/" + id +   "  personId = " + person.getId());
+        log.info("GET: /trainer/exercise/video/" + id +   "  personId = " + person.getId());
 
         Exercise exercise = exercisesService.findById(id);
         Trainer trainer = trainersService.findByPersonId(person.getId());
@@ -95,9 +95,9 @@ public class ExerciseController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Integer> postNewExercise(@RequestBody NewExerciseDTO newExerciseDTO) {
+    public ResponseEntity<ExerciseDTO> postNewExercise(@RequestBody NewExerciseDTO newExerciseDTO) {
         Person person = SecurityUtil.getPerson();
-        log.info("POST: /new_exercise" + "  personId = " + person.getId());
+        log.info("POST: /trainer/exercise/new" + "  personId = " + person.getId());
 
         Trainer trainer = trainersService.findByPersonId(person.getId());
         Exercise exercise = modelMapperUtil.convertToExercise(newExerciseDTO);
@@ -105,15 +105,15 @@ public class ExerciseController {
         exercise.setImage(pathToFiles + "\\simple_image.jpg");
         exercise.setVideo(pathToFiles + "\\simple_video.mp4");
 
-        int id = exercisesService.saveNewExercise(exercise);
+        Exercise newExercise = exercisesService.save(exercise);
 
-        return ResponseEntity.status(HttpStatus.OK).body(id);
+        return ResponseEntity.status(HttpStatus.OK).body(modelMapperUtil.convertToExerciseDTO(newExercise));
     }
 
     @PutMapping("/edite")
-    public ResponseEntity<?> postEditeExercise(@RequestBody ExerciseDTO exerciseDTO) {
+    public ResponseEntity<?> putEditeExercise(@RequestBody ExerciseDTO exerciseDTO) {
         Person person = SecurityUtil.getPerson();
-        log.info("POST: /new_exercise" + "  personId = " + person.getId());
+        log.info("PUT: /trainer/exercise/edite" + "  personId = " + person.getId());
 
         Exercise exercise = exercisesService.findById(exerciseDTO.getId());
         exercise.setName(exerciseDTO.getName());
@@ -128,7 +128,7 @@ public class ExerciseController {
     @PutMapping("/image/{id}")
     public ResponseEntity<?> putImage(@PathVariable("id") int id, @RequestParam("image") MultipartFile image) {
         Person person = SecurityUtil.getPerson();
-        log.info("PUT: /image/" + id +  "  personId = " + person.getId());
+        log.info("PUT: /trainer/exercise/image/" + id +  "  personId = " + person.getId());
 
         String fileName = image.getOriginalFilename();
         try {
@@ -150,7 +150,7 @@ public class ExerciseController {
     @PutMapping("/video/{id}")
     public ResponseEntity<?> putVideo(@PathVariable("id") int id, @RequestParam("video") MultipartFile video) {
         Person person = SecurityUtil.getPerson();
-        log.info("PUT: /video/" + id +  "  personId = " + person.getId());
+        log.info("PUT: /trainer/exercise/video/" + id +  "  personId = " + person.getId());
 
         String fileName = video.getOriginalFilename();
         try {
