@@ -137,7 +137,7 @@ public class ExerciseControllerTest {
 
     @Test
     void putImage() throws Exception {
-        String path = "D:\\Project\\fitness\\backend\\src\\test\\resources\\files\\press.jpg";
+        String path = "src\\test\\resources\\files\\press.jpg";
         byte[] buffer = loadBuffer(path);
         MockMultipartFile image = new MockMultipartFile("image", "press.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, buffer);
         putImageThenCheckIt(image);
@@ -145,7 +145,7 @@ public class ExerciseControllerTest {
 
     @Test
     void putVideo() throws Exception {
-        String path = "D:\\Project\\fitness\\backend\\src\\test\\resources\\files\\pressVideo.MOV";
+        String path = "src\\test\\resources\\files\\pressVideo.MOV";
         byte[] buffer = loadBuffer(path);
         MockMultipartFile video = new MockMultipartFile("video", "pressVideo.MOV", MediaType.MULTIPART_FORM_DATA_VALUE, buffer);
 
