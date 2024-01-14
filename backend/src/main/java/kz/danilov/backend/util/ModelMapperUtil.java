@@ -5,6 +5,7 @@ import kz.danilov.backend.dto.PersonDataDTO;
 import kz.danilov.backend.dto.PersonOnlyWithNameDTO;
 import kz.danilov.backend.dto.trainers.ExerciseDTO;
 import kz.danilov.backend.dto.trainers.NewExerciseDTO;
+import kz.danilov.backend.dto.trainers.NewTaskDTO;
 import kz.danilov.backend.dto.trainers.TaskDTO;
 import kz.danilov.backend.models.Person;
 import kz.danilov.backend.models.trainers.Exercise;
@@ -70,5 +71,17 @@ public class ModelMapperUtil {
         }
 
         return tasksDTOList;
+    }
+
+    public Task convertToTask(TaskDTO taskDTO) {
+        return this.modelMapper.map(taskDTO, Task.class);
+    }
+
+    public TaskDTO convertToTaskDTO(NewTaskDTO taskDTO) {
+        return this.modelMapper.map(taskDTO, TaskDTO.class);
+    }
+
+    public TaskDTO convertToTaskDTO(Task Task) {
+        return this.modelMapper.map(Task, TaskDTO.class);
     }
 }

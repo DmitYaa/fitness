@@ -1,6 +1,8 @@
 package kz.danilov.backend.controllers.trainer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kz.danilov.backend.dto.trainers.NewTaskDTO;
+import kz.danilov.backend.dto.trainers.TaskDTO;
 import kz.danilov.backend.utils.Utils;
 import kz.danilov.backend.models.Person;
 import kz.danilov.backend.models.trainers.Exercise;
@@ -38,10 +40,10 @@ public class TaskControllerTest {
     private final MockMvc mockMvc;
     private final PeopleService peopleService;
     private final JWTUtil jwtUtil;
-    private final ModelMapperUtil modelMapperUtil;
     private final TrainersService trainersService;
     private final TasksService tasksService;
     private final ExercisesService exercisesService;
+    private final ModelMapperUtil modelMapperUtil;
 
     @Autowired
     public TaskControllerTest(ObjectMapper objectMapper, MockMvc mockMvc, PeopleService peopleService, JWTUtil jwtUtil, ModelMapperUtil modelMapperUtil, TrainersService trainersService, TasksService tasksService, ExercisesService exercisesService) {
@@ -102,6 +104,19 @@ public class TaskControllerTest {
         getListTasksThenCheckIt();
     }
 
+    @Test
+    void postNewTask() throws Exception {
+        NewTaskDTO newTaskDTO = Utils.createTestNewTaskDTO(exercisesService.findAll().get(0));
+        postNewTaskDTOThenCheckIt(newTaskDTO);
+    }
+
+    @Test
+    void putEditeTask() throws Exception {
+        Task task = tasksService.findAll().get(0);
+        TaskDTO taskDTO = modelMapperUtil.convertToTaskDTO(task);
+        postEditeTaskDTOThenCheckIt(taskDTO);
+    }
+
     private void getListTasksThenCheckIt() throws Exception {
         String data = Utils.getResultActionsWithTokenButWithoutBody(mockMvc,
                         "/trainer/task/all",
@@ -112,5 +127,54 @@ public class TaskControllerTest {
                 .getContentAsString();
 
         assertTrue(data.contains("" + tasks.get(0).getId()));
+    }
+
+    private void postNewTaskDTOThenCheckIt(NewTaskDTO newTaskDTO) throws Exception {
+        String data = Utils.postResultActionsWithTokenAndBody(mockMvc,
+                        "/trainer/task/new",
+                        trainerToken,
+                        objectMapper,
+                        newTaskDTO)
+                .andExpect(status().is(200))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertTrue(data.contains("" + newTaskDTO.getIdExercise()));
+
+        boolean result = false;
+        for (Task task : tasksService.findAll()) {
+            if (task.getName().equals(newTaskDTO.getName())) {
+                if (task.getTrainer().getId() == trainer.getId()) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+
+        assertTrue(result);
+    }
+
+    private void postEditeTaskDTOThenCheckIt(TaskDTO taskDTO) throws Exception {
+        String name = "newNameTask";
+        taskDTO.setName(name);
+        Utils.putResultActionsWithTokenAndBody(mockMvc,
+                        "/trainer/task/edite",
+                        trainerToken,
+                        objectMapper,
+                        taskDTO)
+                .andExpect(status().is(204));
+
+        boolean result = false;
+        for (Task task : tasksService.findAll()) {
+            if (task.getName().equals(name)) {
+                if (task.getTrainer().getId() == trainer.getId()) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+
+        assertTrue(result);
     }
 }

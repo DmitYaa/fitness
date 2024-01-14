@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kz.danilov.backend.dto.PersonDTO;
 import kz.danilov.backend.dto.trainers.ExerciseDTO;
 import kz.danilov.backend.dto.trainers.NewExerciseDTO;
+import kz.danilov.backend.dto.trainers.NewTaskDTO;
+import kz.danilov.backend.dto.trainers.TaskDTO;
 import kz.danilov.backend.models.Person;
 import kz.danilov.backend.models.trainers.Exercise;
 import kz.danilov.backend.models.trainers.Task;
@@ -158,6 +160,10 @@ public class Utils {
         ExerciseDTO exerciseDTO =modelMapperUtil.convertToExerciseDTO(exercise);
         exerciseDTO.setDescription("тест успешный!!!");
         return exerciseDTO;
+    }
+
+    public static NewTaskDTO createTestNewTaskDTO(Exercise exercise) {
+        return new NewTaskDTO("тестовый", "неизвестное описание", exercise.getId(), 50, (byte) 1);
     }
 
     public static String getOldToken() {

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * User: Nikolai Danilov
  * Date: 01.08.2023
@@ -19,6 +21,14 @@ public class TasksService {
     @Autowired
     public TasksService(TasksRepository tasksRepository) {
         this.tasksRepository = tasksRepository;
+    }
+
+    public Task getById(int id) {
+        return tasksRepository.getById(id);
+    }
+
+    public List<Task> findAll() {
+        return tasksRepository.findAll();
     }
 
     @Transactional
