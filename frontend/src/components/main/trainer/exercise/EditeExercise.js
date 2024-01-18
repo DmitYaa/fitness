@@ -2,7 +2,7 @@ import React from "react"
 import ReactPlayer from 'react-player'
 import axios from "axios"
 
-const url = "http://localhost:8080/trainer/exercise"
+const url = "http://78.24.218.228:8080/trainer/exercise"
 const imageReader = new FileReader()
 
 class EditeExercise extends React.Component {

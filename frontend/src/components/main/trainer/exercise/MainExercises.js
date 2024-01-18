@@ -3,7 +3,7 @@ import axios from "axios"
 import Button from "../../../utils/Button"
 import ExercisePanel from "./ExercisePanel"
 
-const url = "http://localhost:8080/trainer/exercise";
+const url = "http://78.24.218.228:8080/trainer/exercise";
 
 class MainExercises extends React.Component {
     constructor(props) {

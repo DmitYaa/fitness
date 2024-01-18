@@ -3,7 +3,7 @@ import Users from "./Users"
 import axios from "axios"
 import SearchUser from "./SearchUser"
 
-const url = "http://localhost:8080/admin"
+const url = "http://78.24.218.228:8080/admin"
 
 class MainUsers extends React.Component {
     constructor(props) {

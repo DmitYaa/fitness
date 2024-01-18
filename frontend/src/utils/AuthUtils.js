@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://localhost:8080/auth";
+const url = "http://78.24.218.228:8080/auth";
 
 function login(person, setState) {
     

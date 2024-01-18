@@ -3,7 +3,7 @@ import axios from "axios"
 import Button from "../../../utils/Button"
 import TaskPanel from "./TaskPanel";
 
-const url = "http://localhost:8080/trainer/task";
+const url = "http://78.24.218.228:8080/trainer/task";
 
 class MainTasks extends React.Component {
     constructor(props) {
