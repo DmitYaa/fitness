@@ -8,9 +8,7 @@ import kz.danilov.backend.dto.trainers.NewExerciseDTO;
 import kz.danilov.backend.dto.trainers.NewTaskDTO;
 import kz.danilov.backend.dto.trainers.TaskDTO;
 import kz.danilov.backend.models.Person;
-import kz.danilov.backend.models.trainers.Exercise;
-import kz.danilov.backend.models.trainers.Task;
-import kz.danilov.backend.models.trainers.Trainer;
+import kz.danilov.backend.models.trainers.*;
 import kz.danilov.backend.util.ModelMapperUtil;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -96,6 +94,20 @@ public class Utils {
         List<Task> tasks = getTasks();
         tasks.forEach((e) -> e.setTrainer(trainer));
         return tasks;
+    }
+
+    public static List<Training> getTrainings() {
+        return Arrays.asList(
+                new Training(0, "Стандартная тренировка", "Делаются все упражнения без спешки и прочего", null, null, null),
+                new Training(0, "Улучшенная тренировка", "Делаются упор на мышци груди", null, null, null),
+                new Training(0, "Силовая тренировка ног", "Тренировка посвещена приседанием", null, null, null)
+        );
+    }
+
+    public static List<Training> getTrainings(Trainer trainer) {
+        List<Training> trainings = getTrainings();
+        trainings.forEach((e) -> e.setTrainer(trainer));
+        return trainings;
     }
 
     public static ResultActions getResultActionsWithTokenButWithoutBody(MockMvc mockMvc, String url, String token) throws Exception {

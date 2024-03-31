@@ -27,6 +27,8 @@ public class Program {
     @JoinColumn(name = "trainer_id")
     private Trainer trainer;
 
+    //TODO добавить форматы занятий на неделе
+
     @ManyToMany
     @JoinTable(
             name = "Program_Training",
