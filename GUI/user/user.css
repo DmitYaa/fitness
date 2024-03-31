@@ -1,0 +1,374 @@
+/* iPhone 15+pro 393px × 852px; 
+Медиа-запрос iPhone 15 для альбомной ориентации:
+@media only screen and (min-width: 393px) and (orientation: landscape)
+Медиа-запрос iPhone 15 для портретной ориентации:
+@media only screen and (min-width: 852px) and (orientation: portrait)
+Медиа-запрос iPhone 15 для определения соотношения пикселей устройства:
+@media only screen and (-webkit-min-device-pixel-ratio: 3),
+                    only screen and (min--moz-device-pixel-ratio: 3),
+                    only screen and (-o-min-device-pixel-ratio: 3/1),
+                    only screen and (min-device-pixel-ratio: 3)*/
+
+
+
+
+
+* {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    box-sizing: border-box;
+}
+
+html {
+    width: 393px;
+    height: 852px;
+    /* background-color: rgb(24, 26, 29); */
+    color: #fff;
+}
+
+div {
+    float: left;
+    height: auto;
+}
+
+a,
+a:link,
+a:visited,
+li {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+/* ------------------Общие настройки----------------- */
+body {
+    width: 393px;
+    height: 852px;
+    /* background-color: #232425; */
+    color: #fff;
+}
+
+h1 {
+    color: #fff;
+}
+
+.container {
+    width: 393px;
+    height: 852px;
+    background-color: rgb(24, 26, 29);
+    padding-left: 5px;
+    
+}
+
+/* ------------------header----------------- */
+.header {
+    width: 385px;
+    height: 30px;
+}
+
+.header_line {
+   width: 385px;
+
+}
+
+.Dynamiс_Island {
+
+    width: 110px;
+    height: 26px;
+    margin-left: 11px;
+    margin-right: 11px;
+    margin-top: 10px;
+    border-radius: 20px;
+    background-color: #000000;
+    
+}
+
+.header_button_left {
+    width: 126px;
+    height: 30px;
+    background-color: #404346;
+    border-radius: 10px;
+    border-style: none;
+    color: #FFFFFF;
+    cursor: pointer;
+    text-align: center;
+    text-shadow: rgba(13, 222, 159, 0.5) 0 3px 8px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
+        -1px -1px 6px rgba(255, 255, 255, 0.4);
+}
+
+.header_button_right {
+    width: 126px;
+    height: 30px;
+    background-color: #404346;
+    border-radius: 10px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    text-align: center;
+    text-shadow: rgba(13, 222, 159, 0.5) 0 3px 8px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
+        -1px -1px 6px rgba(255, 255, 255, 0.4);
+
+}
+
+/* ------------------Middle----------------- */
+/* ------------------top----------------- */
+.middle {
+    padding-top: 10px;
+}
+
+.middle_top {
+padding-bottom: 7px;
+}
+
+.text_title {
+    max-width: 378px;
+    float: none;
+    text-align: center;
+    margin: 5px;
+    text-shadow: rgba(13, 222, 159, 0.5) 0 3px 8px;
+}
+
+.Timer {
+    width: 378px;
+}
+
+.Timer_bar {}
+
+.Timer_point {
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    margin: 2px;
+    border-radius: 50%;
+}
+
+.red {
+    background: red;
+}
+
+.img_video {
+    padding: 5px;
+}
+
+.img_time {
+    overflow: hidden;
+    width: 370px;
+    
+}
+
+/* ------------------bot----------------- */
+.middle_bot {}
+
+.reiteration_block {
+    width: 378px;
+    background-color: #404346;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    padding: 10px;
+
+}
+
+.reiteration {
+    width: 378px;
+    padding-bottom: 7px;
+}
+
+.reiteration_line {
+    padding-bottom: 10px;
+}
+
+.reiteration_left {
+    width: 55px;
+    height: 55px;
+    position: relative;
+    background-color: #2f4f4f;
+    color: #FFFFFF;
+    border-radius: 50%;
+    text-shadow: rgba(13, 222, 159, 0.5) 0 3px 8px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
+        -1px -1px 6px rgba(255, 255, 255, 0.4);
+}
+
+.reiteration_right {
+    width: 55px;
+    height: 55px;
+    float: right;
+    background-color: #2f4f4f;
+    color: #FFFFFF;
+    border-radius: 50%;
+    text-shadow: rgba(13, 222, 159, 0.5) 0 3px 8px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
+        -1px -1px 6px rgba(255, 255, 255, 0.4);
+}
+
+.text_reiteration_control {
+    width: 285px;
+    padding-bottom: 12.5px;
+    padding-top: 12.5px;
+}
+
+.text_reiteration {
+    height: 30px;
+    width: 270px;
+    background-color: #2f4f4f;
+    border-radius: 20px;
+    border-style: none;
+    color: #FFFFFF;
+    text-align: center;
+    padding-top: 7px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
+        -1px -1px 6px rgba(255, 255, 255, 0.4);
+}
+
+.count_reiteration {
+    padding: 18px;
+}
+
+.input {
+    width: 378px;
+
+}
+
+input[type=text] {
+    width: 174px;
+    height: 30px;
+    color: #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 20px;
+    background-color: #2f4f4f;
+    text-align: center;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
+        -1px -1px 6px rgba(255, 255, 255, 0.4);
+}
+
+
+.input_reiteration {
+    width: 174px;
+    margin-right: 10px;
+}
+
+.input_button {
+    width: 174px;
+    height: 30px;
+    background-color: #2f4f4f;
+    border-radius: 20px;
+    border-style: none;
+    color: #FFFFFF;
+    cursor: pointer;
+    text-align: center;
+    text-shadow: rgba(13, 222, 159, 0.5) 0 3px 8px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
+        -1px -1px 6px rgba(255, 255, 255, 0.4);
+
+}
+
+.history {
+    width: 378px;
+    height: 220px;
+    background-color: #404346;
+    border-radius: 20px;
+    padding: 10px;
+    overflow: auto;
+    scrollbar-gutter: stable;
+}
+
+.history::-webkit-scrollbar {
+    width: 5px;
+
+}
+
+/* .history::-webkit-scrollbar-track {
+    background-color: #404346;
+    border-radius: 100px;
+    border: 5px solid transparent;
+    border-radius: 100px;
+    background-clip: content-box;
+}
+
+.history::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #2f4f4f;
+    border-radius: 100px;
+} */
+
+.history_dateblock {}
+
+.history_exercise {
+    width: 358px;
+    height: 30px;
+    padding: 5px;
+    text-align: center;
+    background-color: #2f4f4f;
+    border-radius: 20px;
+    border-style: none;
+    color: #ffffff;
+    text-align: center;
+    text-shadow: rgba(13, 222, 159, 0.5) 0 3px 8px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
+        -1px -1px 6px rgba(255, 255, 255, 0.4);
+
+}
+
+.history_date {
+    width: 358px;
+    text-align: center;
+    background-color: #2f4f4f;
+    border-radius: 20px;
+    border-style: none;
+    color: #ffffff;
+    font-size: 15px;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    text-align: center;
+    text-shadow: rgba(13, 222, 159, 0.5) 0 3px 8px;
+    margin-bottom: 7px;
+    margin-top: 15px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
+        -1px -1px 6px rgba(255, 255, 255, 0.4);
+}
+
+.history_repetitions {
+    width: 174px;
+    text-align: center;
+    background-color: #2f4f4f;
+    border-radius: 20px;
+    border-style: none;
+    color: #ffffff;
+    font-size: 15px;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    text-align: center;
+    text-shadow: rgba(13, 222, 159, 0.5) 0 3px 8px;
+    margin-right: 10px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
+        -1px -1px 6px rgba(255, 255, 255, 0.4);
+
+}
+
+.history_time {
+    width: 174px;
+    text-align: center;
+    background-color: #2f4f4f;
+    border-radius: 20px;
+    border-style: none;
+    color: #ffffff;
+    font-size: 15px;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    text-align: center;
+    text-shadow: rgba(13, 222, 159, 0.5) 0 3px 8px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
+        -1px -1px 6px rgba(255, 255, 255, 0.4);
+}
+
+
+
+/* ------------------footer----------------- */
+/* может быть какая-то навигация? */
+
+
+/* #F6D265 желтый тот*/
